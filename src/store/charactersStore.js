@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {computed, ref, watch} from "vue";
+import {computed, ref} from "vue";
 import axios from "@/http-common.js";
 import {useMainStore} from "@/store/mainStore.js";
 
@@ -17,29 +17,21 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 		}
 	};
 	const getRandomCharacters = async () => {
-		console.log('called')
 		try {
-			// check if charactersCount != 0
-			if (!countInfo.charactersCount) {
-				throw 'Error'
-			}
-			characters.value = []
-
-			// loop for generating unique id`s
-			while (characters.value.length < 10) {
-				const charId = Math.floor(Math.random() * (countInfo.charactersCount + 1))
-				if (characters.value.indexOf(charId) === -1)
-					characters.value.push(charId)
-			}
-
-			const {data} = await axios.get('character/' + characters.value.toString())
-
+			const {data} = await axios.get(`character/${generateRandomIds(10)}`)
 			characters.value = data
-			console.log('(In charastersStore) Characters:', characters.value)
-			console.log('done')
 		} catch (e) {
-
 		}
 	};
+
+	const generateRandomIds = (count) => {
+		const randomIdsArr = new Set()
+		// loop for generating unique id`s
+		while (randomIdsArr.size < count) {
+			const charId = Math.floor(Math.random() * (countInfo.charactersCount + 1))
+			randomIdsArr.add(charId)
+		}
+		return Array.from(randomIdsArr).toString()
+	}
 	return {characters, getCharacters, getRandomCharacters}
 })

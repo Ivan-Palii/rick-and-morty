@@ -2,17 +2,19 @@
 import {useCharactersStore} from "@/store/charactersStore.js";
 import {useMainStore} from "@/store/mainStore.js";
 import {onMounted, ref} from "vue";
+import {storeToRefs} from "pinia"
 import TheLoader from "@/components/TheLoader.vue";
 import CharacterCard from "@/components/CharacterCard.vue";
 
 const loader = ref(false)
-const {characters, getRandomCharacters, getCharacters} = useCharactersStore()
+const {getRandomCharacters, getCharacters} = useCharactersStore()
+const {characters} = storeToRefs(useCharactersStore())
+// const charactersStore = useCharactersStore()
 
 onMounted(async () => {
 	loader.value = true
 	await getCharacters()
 	await getRandomCharacters()
-	console.log("(In HomePage) Characters:", characters)
 	loader.value = false
 })
 </script>
@@ -37,7 +39,7 @@ onMounted(async () => {
 					sm='12'
 					v-for='character in characters'
 					:key='character.id'
-					class='pr-16 pl-16'
+					class='d-flex character-item'
 				>
 					<CharacterCard :character="character"/>
 				</v-col>
@@ -46,5 +48,16 @@ onMounted(async () => {
 	</v-container>
 	{{ loader }}
 </template>
-<style scoped>
+<style
+	scoped
+	lang="scss"
+>
+.character-item {
+//	 pr-16 pl-16
+
+	padding: 12px 64px;
+	@media (max-width: 960px) {
+		padding: 8px 32px;
+	}
+}
 </style>
