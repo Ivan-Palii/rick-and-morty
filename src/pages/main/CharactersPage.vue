@@ -1,17 +1,19 @@
 <script setup>
 import {useCharactersStore} from "@/store/charactersStore.js";
-import {onMounted, ref, watch, watchEffect} from "vue";
+import {ref, watchEffect} from "vue";
 import {storeToRefs} from "pinia"
 import CharactersList from "@/components/characters/CharactersList.vue";
+import {useMainStore} from "@/store/mainStore.js";
 
-const loader = ref(false)
+const {delay} = useMainStore()
 const {getCharacters} = useCharactersStore()
 const {characters, pages} = storeToRefs(useCharactersStore())
 const page = ref(1)
+const loader = ref(false)
 
 watchEffect(async () => {
 	loader.value = true
-	await getCharacters({page: page.value})
+	await delay(250).then(getCharacters({page: page.value}))
 	loader.value = false
 
 })
