@@ -27,19 +27,26 @@ switch (props.character.status) {
 <template>
 	<v-card class="pa-4 flex-1-1">
 		<v-row class="ma-0 character_row">
-			<div class="character_avatar-wrapper">
-				<v-avatar
-					color="surface-variant"
-					size="164"
-					class="character_avatar"
-				>
-					<v-img
-						aspect-ratio="1/1"
-						cover
-						:src="character.image"
-					></v-img>
-				</v-avatar>
-			</div>
+			<v-col
+				cols='10'
+				lg='4'
+				md='6'
+				sm='12'
+			>
+				<div class="character_avatar-wrapper">
+					<v-avatar
+						color="surface-variant"
+						size="164"
+						class="character_avatar"
+					>
+						<v-img
+							aspect-ratio="1/1"
+							cover
+							:src="character.image"
+						></v-img>
+					</v-avatar>
+				</div>
+			</v-col>
 			<div class="d-flex flex-column">
 				<v-card-title class="text-wrap">{{ character.name }}</v-card-title>
 				<div class="d-flex justify-center align-center pl-4">
@@ -61,7 +68,7 @@ switch (props.character.status) {
 	scoped
 	lang="scss"
 >
-.character {
+/*.character {
 	&_row {
 		flex-wrap: nowrap;
 		@media (max-width: 1280px) {
@@ -85,5 +92,5 @@ switch (props.character.status) {
 			align-items: unset;
 		}
 	}
-}
+}*/
 </style>

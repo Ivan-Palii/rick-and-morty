@@ -7,5 +7,6 @@ export const useMainStore = defineStore('mainStore', () => {
 		locationsCount: 0,
 		episodesCount: 0,
 	})
-	return {countInfo}
+	const delay = (ms) =>  new Promise(resolve => setTimeout(resolve,ms))
+	return {delay, countInfo}
 })
