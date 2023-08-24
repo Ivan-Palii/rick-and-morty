@@ -11,8 +11,7 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 
 	const getCharacters = async (params = {}) => {
 		try {
-			const {data} = await axios.get('character/',{params})
-
+			const {data} = await axios.get('character/', {params})
 			countInfo.charactersCount = data.info.count
 			characters.value = data.results
 			pages.value = data.info.pages

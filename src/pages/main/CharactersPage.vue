@@ -1,6 +1,7 @@
 <script setup>
 import {useCharactersStore} from "@/store/charactersStore.js";
-import {ref, watchEffect} from "vue";
+import {computed, onMounted, reactive, ref, watch, watchEffect} from "vue";
+import {useRoute, useRouter} from 'vue-router';
 import {storeToRefs} from "pinia"
 import CharactersList from "@/components/characters/CharactersList.vue";
 import {useMainStore} from "@/store/mainStore.js";
@@ -8,15 +9,31 @@ import {useMainStore} from "@/store/mainStore.js";
 const {delay} = useMainStore()
 const {getCharacters} = useCharactersStore()
 const {characters, pages} = storeToRefs(useCharactersStore())
-const page = ref(1)
 const loader = ref(false)
+const router = useRouter()
+const route = useRoute()
+
+const isQueryValid = computed(() => {
+	return (route.query.page > 0 && route.query.page < pages.value)
+})
+
+const params = reactive({
+	page: 1
+})
+
+onMounted(async () => {
+	await delay(100)
+	await getCharacters()
+	params.page = isQueryValid.value ? +route.query?.page : 1
+})
 
 watchEffect(async () => {
 	loader.value = true
-	await delay(250).then(getCharacters({page: page.value}))
+	await delay(250).then(getCharacters({page: params.page}))
+	router.push({query: {page: params.page}})
 	loader.value = false
-
 })
+
 </script>
 <template>
 	<h1>Characters</h1>
@@ -32,7 +49,7 @@ watchEffect(async () => {
 		>
 			<v-pagination
 				:length="pages"
-				v-model="page"
+				v-model="params.page"
 			></v-pagination>
 		</v-col>
 	</v-row>
