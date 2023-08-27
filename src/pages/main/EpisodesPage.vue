@@ -1,5 +1,6 @@
 <script setup>
-import {ref, watchEffect} from "vue";
+import {computed, onMounted, reactive, ref, watch} from "vue";
+import {useRoute, useRouter} from 'vue-router';
 import {storeToRefs} from "pinia"
 import {useEpisodesStore} from "@/store/episodesStore.js";
 import EpisodeCard from "@/components/episodes/EpisodeCard.vue";
@@ -10,12 +11,31 @@ const {delay} = useMainStore()
 const {getEpisodes} = useEpisodesStore()
 const {episodes, pages} = storeToRefs(useEpisodesStore())
 const loader = ref(false)
-const page = ref(1)
+const router = useRouter()
+const route = useRoute()
 
-watchEffect(async () => {
+const isQueryValid = computed(() => {
+	return (route.query.page > 0 && route.query.page < pages.value)
+})
+
+const params = reactive({
+	page: undefined
+})
+
+onMounted(async () => {
+	await getEpisodes()
+	params.page = isQueryValid.value ? +route.query?.page : 1
+})
+
+watch(params, async () => {
 	loader.value = true
-	await delay(250).then(getEpisodes({page: page.value}))
+	await delay(250).then(getEpisodes({page: params.page}))
+	router.push({query: {page: params.page}})
 	loader.value = false
+})
+watch(router.currentRoute, async (value, oldValue) => {
+	if (oldValue.query.page === params.page.toString() && oldValue.path === value.path)
+		params.page = +value.query.page
 })
 </script>
 <template>
@@ -54,7 +74,7 @@ watchEffect(async () => {
 			>
 				<v-pagination
 					:length="pages"
-					v-model="page"
+					v-model="params.page"
 				></v-pagination>
 			</v-col>
 		</v-row>

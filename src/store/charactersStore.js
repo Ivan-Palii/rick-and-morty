@@ -10,6 +10,7 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 	const {countInfo} = useMainStore();
 
 	const getCharacters = async (params = {}) => {
+		// console.log("called getCharacters", params)
 		try {
 			const {data} = await axios.get('character/', {params})
 			countInfo.charactersCount = data.info.count

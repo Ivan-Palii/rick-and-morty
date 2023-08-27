@@ -9,22 +9,22 @@ const items = [
 	{
 		title: 'Home',
 		value: 'home',
-		to: '/',
+		to: {path: '/'},
 	},
 	{
 		title: 'Characters',
 		value: 'characters',
-		to: '/characters',
+		to: {path: '/characters', query: {page: 1}},
 	},
 	{
 		title: 'Locations',
 		value: 'locations',
-		to: '/locations',
+		to: {path: '/locations', query: {page: 1}},
 	},
 	{
 		title: 'Episodes',
 		value: 'episodes',
-		to: '/episodes',
+		to: {path: '/episodes', query: {page: 1}},
 	},
 ]
 </script>
@@ -56,7 +56,6 @@ const items = [
 		</v-app-bar>
 		<v-navigation-drawer
 			v-model="drawer"
-
 		>
 			<v-list
 				nav
