@@ -31,11 +31,11 @@ watch(params, async () => {
 	await delay(250).then(getCharacters({page: params.page}))
 	router.push({query: {page: params.page}})
 	loader.value = false
-})
+}, {immediate: true})
 watch(router.currentRoute, async (value, oldValue) => {
-	if (oldValue.query.page === params.page.toString() && oldValue.path === value.path)
+	if (oldValue && value && oldValue?.query.page === params.page.toString() && oldValue.path === value.path)
 		params.page = +value.query.page
-})
+}, {immediate: true})
 </script>
 <template>
 	<h1>Characters</h1>

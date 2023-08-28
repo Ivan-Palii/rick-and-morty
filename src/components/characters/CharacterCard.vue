@@ -48,7 +48,11 @@ switch (props.character.status) {
 				</div>
 			</v-col>
 			<div class="d-flex flex-column">
-				<v-card-title class="text-wrap">{{ character.name }}</v-card-title>
+				<v-card-title class="text-wrap">
+					<router-link :to="{path:'character',query:{id:character.id}}">
+						{{ character.name }}
+					</router-link>
+				</v-card-title>
 				<div class="d-flex justify-center align-center pl-4">
 					<v-avatar
 						size="13"

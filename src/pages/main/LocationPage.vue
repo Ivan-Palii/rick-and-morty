@@ -24,7 +24,6 @@ const params = reactive({
 
 onMounted(async () => {
 	await getLocations()
-	console.log(pages)
 	params.page = isQueryValid.value ? +route.query?.page : 1
 })
 
