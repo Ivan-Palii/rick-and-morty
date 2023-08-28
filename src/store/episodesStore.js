@@ -14,5 +14,14 @@ export const useEpisodesStore = defineStore('EpisodesStore', () => {
 		pages.value = data.info.pages
 		episodes.value = data.results
 	}
-	return {episodes, pages, getEpisodes}
+
+	const getEpisodesById = async (idArr) => {
+		try {
+			const {data} = await axios.get(`episode/${idArr}`)
+			episodes.value = data
+		} catch (e) {
+		}
+
+	}
+	return {episodes, pages, getEpisodes, getEpisodesById}
 })

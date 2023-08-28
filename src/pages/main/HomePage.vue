@@ -12,7 +12,6 @@ const {characters} = storeToRefs(useCharactersStore())
 
 watchEffect(async () => {
 	loader.value = true
-	console.log("called")
 	await delay(500)
 	await getRandomCharacters()
 	loader.value = false
