@@ -31,54 +31,54 @@ watchEffect(async () => {
 })
 </script>
 <template>
-	<v-container class='wrap lighten-5 pa-4'>
+	<VContainer class='wrap lighten-5 pa-4'>
 		<template v-if='loader'>
 			<ItemLoader/>
 		</template>
 		<template v-else>
-			<v-card>
-				<v-row class="ma-0">
-					<v-col>
-						<v-card-title>Name: {{ locations.name }}</v-card-title>
-						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Type: {{ locations.type }}</v-card-text>
-						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Dimension: {{ locations.dimension }}
-						</v-card-text>
-						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Created:
+			<VCard>
+				<VRow class="ma-0">
+					<VCol>
+						<VCardTitle>Name: {{ locations.name }}</VCardTitle>
+						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">Type: {{ locations.type }}</VCardText>
+						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">Dimension: {{ locations.dimension }}
+						</VCardText>
+						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">Created:
 							{{ (new Date(Date.parse(locations.created)).toLocaleDateString()) }}
-						</v-card-text>
-					</v-col>
-				</v-row>
-				<v-row class="ma-0">
-					<v-col class="d-flex justify-center flex-1-0-100">
+						</VCardText>
+					</VCol>
+				</VRow>
+				<VRow class="ma-0">
+					<VCol class="d-flex justify-center flex-1-0-100">
 						<h3>Residents</h3>
-					</v-col>
-					<v-col v-if="!residentsShow" class="d-flex justify-center flex-1-0-100">
+					</VCol>
+					<VCol v-if="!residentsShow" class="d-flex justify-center flex-1-0-100">
 						<h4>There are no residents here</h4>
-					</v-col>
-					<v-col
+					</VCol>
+					<VCol
+						v-for='character in characters'
+						v-else-if="characters?.length>1"
+						:key='character.id'
 						cols='12'
 						md='6'
 						sm='12'
 						class='d-flex'
-						v-for='character in characters'
-						:key='character.id'
-						v-else-if="characters?.length>1"
 					>
 						<CharacterCard :character="character"/>
-					</v-col>
-					<v-col
+					</VCol>
+					<VCol
+						v-else
 						cols='12'
 						md='6'
 						sm='12'
 						class='d-flex'
-						v-else
 					>
 						<CharacterCard :character="characters"/>
-					</v-col>
-				</v-row>
-			</v-card>
+					</VCol>
+				</VRow>
+			</VCard>
 		</template>
-	</v-container>
+	</VContainer>
 </template>
 <style scoped>
 </style>

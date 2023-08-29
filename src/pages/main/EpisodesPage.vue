@@ -40,45 +40,45 @@ watch(router.currentRoute, async (value, oldValue) => {
 </script>
 <template>
 	<h1>Episodes</h1>
-	<v-container class='wrap lighten-5 pa-4'>
-		<v-row class="mr-lg-n16">
+	<VContainer class='wrap lighten-5 pa-4'>
+		<VRow>
 			<template v-if='loader'>
-				<v-col
+				<VCol
+					v-for='n in 20'
 					cols='12'
 					md='6'
 					sm='12'
-					v-for='n in 20'
 					class='pr-16 pl-16'
 				>
 					<TheLoader/>
-				</v-col>
+				</VCol>
 			</template>
 			<template v-else>
-				<v-col
+				<VCol
+					v-for='episode in episodes'
+					:key='episode.id'
 					cols='12'
 					md='6'
 					sm='12'
-					v-for='episode in episodes'
-					:key='episode.id'
 					class='d-flex character-item'
 				>
 					<EpisodeCard :episode="episode"/>
-				</v-col>
+				</VCol>
 			</template>
-		</v-row>
-		<v-row class="d-flex justify-center">
-			<v-col
+		</VRow>
+		<VRow class="d-flex justify-center">
+			<VCol
 				cols="6"
 				md="6"
 				sm="8"
 			>
-				<v-pagination
-					:length="pages"
+				<VPagination
 					v-model="params.page"
-				></v-pagination>
-			</v-col>
-		</v-row>
-	</v-container>
+					:length="pages"
+				/>
+			</VCol>
+		</VRow>
+	</VContainer>
 </template>
 <style scoped>
 </style>

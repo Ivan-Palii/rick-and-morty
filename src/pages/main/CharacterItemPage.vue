@@ -1,139 +1,155 @@
 <script setup>
-import {useCharactersStore} from "@/store/charactersStore.js";
-import {useEpisodesStore} from "@/store/episodesStore.js"
-import {ref, watchEffect} from "vue";
-import {storeToRefs} from "pinia"
-import {useMainStore} from "@/store/mainStore.js";
-import ItemLoader from "@/components/ItemLoader.vue";
-import EpisodeCard from "@/components/episodes/EpisodeCard.vue";
-import {useRoute} from 'vue-router';
+import { useCharactersStore } from '@/store/charactersStore.js';
+import { useEpisodesStore } from '@/store/episodesStore.js';
+import { ref, watchEffect } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useMainStore } from '@/store/mainStore.js';
+import ItemLoader from '@/components/ItemLoader.vue';
+import EpisodeCard from '@/components/episodes/EpisodeCard.vue';
+import { useRoute } from 'vue-router';
 
-const {delay} = useMainStore()
-const {getCharactersById} = useCharactersStore()
-const {characters} = storeToRefs(useCharactersStore())
-const {getEpisodesById} = useEpisodesStore()
-const {episodes} = storeToRefs(useEpisodesStore())
+const { delay } = useMainStore();
+const { getCharactersById } = useCharactersStore();
+const { characters } = storeToRefs(useCharactersStore());
+const { getEpisodesById } = useEpisodesStore();
+const { episodes } = storeToRefs(useEpisodesStore());
 
-const loader = ref(false)
-const route = useRoute()
+const loader = ref(false);
+const route = useRoute();
 
 watchEffect(async () => {
-	loader.value = true
-	await delay(500)
-	await getCharactersById(route.query.id)
-	await getEpisodesById(characters.value.episode.map(e => e.split('/').pop()))
-	setColor()
-	loader.value = false
-})
+	loader.value = true;
+	await delay(500);
+	await getCharactersById(route.query.id);
+	await getEpisodesById(characters.value.episode.map(e => e.split('/').pop()));
+	setColor();
+	loader.value = false;
+});
 
-const color = ref(undefined)
+const color = ref(undefined);
 
 function setColor() {
 	switch (characters.value.status) {
 		case 'Alive': {
-			color.value = "green"
-			break
+			color.value = 'green';
+			break;
 		}
 		case 'Dead': {
-			color.value = "red"
-			break
+			color.value = 'red';
+			break;
 		}
 		default: {
-			color.value = "orange"
+			color.value = 'orange';
 		}
 	}
 }
 </script>
 <template>
-	<v-container class='wrap lighten-5 pa-4'>
-		<template v-if='loader'>
-			<ItemLoader/>
+	<VContainer class="wrap lighten-5 pa-4">
+		<template v-if="loader">
+			<ItemLoader />
 		</template>
 		<template v-else>
-			<v-card>
-				<v-row class="ma-0">
-					<div class="pa-4 ">
-						<v-avatar
+			<VCard>
+				<VRow class="ma-0">
+					<div class="pa-4">
+						<VAvatar
 							color="surface-variant"
 							size="164"
 						>
-							<v-img
+							<VImg
+								:src="characters.image"
 								aspect-ratio="1/1"
 								cover
-								:src="characters.image"
-							></v-img>
-						</v-avatar>
+							/>
+						</VAvatar>
 					</div>
 					<div class="d-flex flex-column">
-						<v-card-title class="text-wrap pa-4">
+						<VCardTitle class="text-wrap pa-4">
 							{{ characters.name }}
-						</v-card-title>
+						</VCardTitle>
 						<div class="d-flex justify-center align-center pl-4">
-							<v-avatar
+							<VAvatar
+								:color="color"
 								size="13"
-								:color='color'
-							></v-avatar>
-							<v-card-text class="pa-1 pl-2 text-wrap">{{ characters.status }} - {{ characters.species }}
-							</v-card-text>
+							/>
+							<VCardText class="pa-1 pl-2 text-wrap">
+								{{ characters.status }} - {{ characters.species }}
+							</VCardText>
 						</div>
-						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Gender: {{ characters.gender }}</v-card-text>
-						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">
+						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
+							Gender: {{ characters.gender }}
+						</VCardText>
+						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
 							Origin:
-							<router-link
-								:to="{path:'location', query:{id: characters.origin.url.split('/').pop()}}"
+							<RouterLink
 								v-if="characters.origin.url"
+								:to="{
+									path: 'location',
+									query: { id: characters.origin.url.split('/').pop() }
+								}"
 							>
 								{{ characters.origin?.name }}
-							</router-link>
+							</RouterLink>
 							<span v-else>
 								{{ characters.origin?.name }}
 							</span>
-						</v-card-text>
-						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">
+						</VCardText>
+						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
 							Last known location:
-							<router-link :to="{path: 'location',query: {id:characters.location.url.split('/').pop()}}">
+							<RouterLink
+								:to="{
+									path: 'location',
+									query: { id: characters.location.url.split('/').pop() }
+								}"
+							>
 								{{ characters.location?.name }}
-							</router-link>
-						</v-card-text>
-						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">
+							</RouterLink>
+						</VCardText>
+						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
 							First seen in:
-							<router-link :to="{path:'episode', query:{id:episodes?.length > 1 ? episodes[0].id : episodes.id}}">
+							<RouterLink
+								:to="{
+									path: 'episode',
+									query: {
+										id: episodes?.length > 1 ? episodes[0].id : episodes.id
+									}
+								}"
+							>
 								{{ episodes?.length > 1 ? episodes[0].name : episodes.name }}
-							</router-link>
-						</v-card-text>
+							</RouterLink>
+						</VCardText>
 					</div>
-				</v-row>
-				<v-row class="ma-0">
-					<v-col class="d-flex justify-center flex-1-0-100">
+				</VRow>
+				<VRow class="ma-0">
+					<VCol class="d-flex justify-center flex-1-0-100">
 						<h3>Episodes</h3>
-					</v-col>
-					<v-row class="ma-0">
-						<v-col
-							cols='12'
-							md='6'
-							sm='12'
-							class='d-flex'
-							v-for='episode in episodes'
-							:key='episode.id'
-							v-if="episodes?.length>1"
+					</VCol>
+					<VRow class="ma-0">
+						<VCol
+							v-for="episode in episodes"
+							v-if="episodes?.length > 1"
+							:key="episode.id"
+							cols="12"
+							md="6"
+							sm="12"
+							class="d-flex"
 						>
-							<EpisodeCard :episode="episode"/>
-						</v-col>
-						<v-col
-							cols='12'
-							md='6'
-							sm='12'
-							class='d-flex'
+							<EpisodeCard :episode="episode" />
+						</VCol>
+						<VCol
 							v-else
+							cols="12"
+							md="6"
+							sm="12"
+							class="d-flex"
 						>
-							<EpisodeCard :episode="episodes"/>
-						</v-col>
-					</v-row>
-				</v-row>
-			</v-card>
+							<EpisodeCard :episode="episodes" />
+						</VCol>
+					</VRow>
+				</VRow>
+			</VCard>
 		</template>
-	</v-container>
+	</VContainer>
 </template>
-<style scoped>
-</style>
-
+<style scoped></style>

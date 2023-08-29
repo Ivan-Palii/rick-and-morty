@@ -18,6 +18,9 @@ watchEffect(async () => {
 })
 </script>
 <template>
+	<VRow class="ma-0 pt-4 justify-center">
+		<h1 class="text-h1">Rick and Morty</h1>
+	</VRow>
 	<CharactersList
 		:characters="characters"
 		:loader="loader"

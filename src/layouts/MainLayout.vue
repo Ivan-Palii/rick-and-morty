@@ -29,53 +29,46 @@ const items = [
 ]
 </script>
 <template>
-	<v-layout class="overflow-y-auto flex-column">
-		<!-- <v-system-bar color="deep-purple darken-3"></v-system-bar> -->
-		<v-app-bar
+	<VLayout class="overflow-y-auto flex-column">
+		<VAppBar
 			color="primary"
 			prominent
 		>
-			<v-app-bar-nav-icon
+			<VAppBarNavIcon
 				variant="text"
 				@click.stop="drawer = !drawer"
-			></v-app-bar-nav-icon>
-			<v-toolbar-title>Rick and Morty</v-toolbar-title>
-			<v-spacer></v-spacer>
-			<v-btn
-				variant="text"
-				icon="mdi-magnify"
-			></v-btn>
-			<v-btn
-				variant="text"
-				icon="mdi-filter"
-			></v-btn>
-			<v-btn
-				variant="text"
-				icon="mdi-dots-vertical"
-			></v-btn>
-		</v-app-bar>
-		<v-navigation-drawer
+			/>
+			<VToolbarTitle>Rick and Morty</VToolbarTitle>
+			<VSpacer/>
+			<RouterLink :to="{path:'/auth/login'}">
+				<VBtn
+					variant="text"
+					icon="mdi-login"
+				/>
+			</RouterLink>
+		</VAppBar>
+		<VNavigationDrawer
 			v-model="drawer"
 		>
-			<v-list
+			<VList
 				nav
 				dense
 			>
-				<v-list-item
+				<VListItem
 					v-for="(item, i) in items"
-					:key="i"
 					:to="item.to"
+					:key="i"
 					link
 				>
 					{{ item.title }}
-				</v-list-item>
-			</v-list>
-		</v-navigation-drawer>
-		<v-main class="flex-1-1">
-			<router-view/>
-		</v-main>
+				</VListItem>
+			</VList>
+		</VNavigationDrawer>
+		<VMain class="flex-1-1">
+			<RouterView/>
+		</VMain>
 		<TheFooter/>
-	</v-layout>
+	</VLayout>
 </template>
 <style scoped>
 </style>

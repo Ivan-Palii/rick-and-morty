@@ -16,8 +16,32 @@ onMounted(async () => {
 </script>
 <template>
 	<v-footer class="flex-0-1">
-		Charachers:{{ countInfo.charactersCount }} Locations:{{ countInfo.locationsCount }}
-		Episodes:{{ countInfo.episodesCount }}
+		<v-row class="ma-0 justify-center">
+			<v-col
+				class="text-center text-h6"
+				cols='12'
+				md='6'
+				sm='12'
+			>
+				Charachers:{{ countInfo.charactersCount }}
+			</v-col>
+			<v-col
+				class="text-center text-h6"
+				cols='12'
+				md='6'
+				sm='12'
+			>
+				Locations:{{ countInfo.locationsCount }}
+			</v-col>
+			<v-col
+				class="text-center text-h6"
+				cols='12'
+				md='6'
+				sm='12'
+			>
+				Episodes:{{ countInfo.episodesCount }}
+			</v-col>
+		</v-row>
 	</v-footer>
 </template>
 <style scoped>

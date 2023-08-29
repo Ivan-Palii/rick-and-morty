@@ -15,7 +15,7 @@ const props = defineProps({
 </script>
 <template>
 	<v-container class='wrap lighten-5 pa-4'>
-		<v-row class="mr-lg-n16">
+		<v-row>
 			<template v-if='loader'>
 				<v-col
 					cols='12'
