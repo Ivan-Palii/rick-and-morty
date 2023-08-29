@@ -1,7 +1,7 @@
 <script setup>
 import {useCharactersStore} from "@/store/charactersStore.js";
-import {useLocationsStore} from "@/store/locationsStore.js"
-import { ref, watchEffect} from "vue";
+import {useEpisodesStore} from "@/store/episodesStore.js"
+import {ref, watchEffect} from "vue";
 import {storeToRefs} from "pinia"
 import {useMainStore} from "@/store/mainStore.js";
 import ItemLoader from "@/components/ItemLoader.vue";
@@ -10,23 +10,23 @@ import {useRoute} from 'vue-router';
 
 const {delay} = useMainStore()
 const {getCharactersById} = useCharactersStore()
-const {getLocationsById} = useLocationsStore()
+const {getEpisodesById} = useEpisodesStore()
 const {characters} = storeToRefs(useCharactersStore())
-const {locations} = storeToRefs(useLocationsStore())
+const {episodes} = storeToRefs(useEpisodesStore())
+
+const residentsShow = ref(false)
 const loader = ref(false)
 const route = useRoute()
-const residentsShow = ref(false)
 
 watchEffect(async () => {
 	loader.value = true
 	await delay(500)
-	await getLocationsById(route.query.id)
-	const charIds = locations.value.residents.map(l => l.split('/').pop())
+	await getEpisodesById(route.query.id)
+	const charIds = episodes.value.characters.map(l => l.split('/').pop())
 	if (charIds.length) {
 		await getCharactersById(charIds)
 		residentsShow.value = true
 	}
-	console.log(locations.value.residents.map(l => l.split('/').pop()))
 	loader.value = false
 })
 </script>
@@ -39,16 +39,15 @@ watchEffect(async () => {
 			<v-card>
 				<v-row class="ma-0">
 					<v-col>
-						<v-card-title>Name: {{ locations.name }}</v-card-title>
-						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Type: {{ locations.type }}</v-card-text>
-						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Dimension: {{ locations.dimension }}
-						</v-card-text>
-						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Created:
-							{{ (new Date(Date.parse(locations.created)).toLocaleDateString()) }}
+
+						<v-card-title>{{ episodes.name }}</v-card-title>
+						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Air date: {{ episodes.air_date }}</v-card-text>
+						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Episode: {{ episodes.episode }}</v-card-text>
+						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Created: {{ (new Date(Date.parse(episodes.created)).toLocaleDateString()) }}
 						</v-card-text>
 					</v-col>
 				</v-row>
-				<v-row class="ma-0">
+				<v-row>
 					<v-col class="d-flex justify-center flex-1-0-100">
 						<h3>Residents</h3>
 					</v-col>

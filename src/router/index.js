@@ -24,7 +24,7 @@ const routes = [
 			{
 				path: '/locations',
 				name: 'LocationsPage',
-				component: () => import('@/pages/main/LocationPage.vue'),
+				component: () => import('@/pages/main/LocationsPage.vue'),
 			},
 			{
 				path: '/location',
@@ -35,6 +35,11 @@ const routes = [
 				path: '/episodes',
 				name: 'EpisodesPage',
 				component: () => import('@/pages/main/EpisodesPage.vue'),
+			},
+			{
+				path: '/episode',
+				name: 'EpisodePage',
+				component: () => import('@/pages/main/EpisodeItemPage.vue'),
 			},
 		],
 	},

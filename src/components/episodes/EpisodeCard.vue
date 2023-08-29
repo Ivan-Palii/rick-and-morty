@@ -10,7 +10,11 @@ const props = defineProps({
 	<v-card class="flex-1-1">
 		<v-row>
 			<v-col>
-				<v-card-title> {{ episode.name }}</v-card-title>
+				<v-card-title>
+					<router-link :to="{path:'episode', query:{id:episode.id}}">
+						{{ episode.name }}
+					</router-link>
+				</v-card-title>
 				<v-card-subtitle>Release date: {{ episode.air_date }}</v-card-subtitle>
 				<v-card-subtitle>Episode: {{ episode.episode }}</v-card-subtitle>
 			</v-col>

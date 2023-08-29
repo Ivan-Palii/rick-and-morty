@@ -1,7 +1,7 @@
 <script setup>
 import {useCharactersStore} from "@/store/charactersStore.js";
 import {useEpisodesStore} from "@/store/episodesStore.js"
-import {onMounted, ref, watchEffect} from "vue";
+import {ref, watchEffect} from "vue";
 import {storeToRefs} from "pinia"
 import {useMainStore} from "@/store/mainStore.js";
 import ItemLoader from "@/components/ItemLoader.vue";
@@ -96,7 +96,10 @@ function setColor() {
 							</router-link>
 						</v-card-text>
 						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">
-							First seen in: {{ episodes?.length > 1 ? episodes[0].name : episodes.name }}
+							First seen in:
+							<router-link :to="{path:'episode', query:{id:episodes?.length > 1 ? episodes[0].id : episodes.id}}">
+								{{ episodes?.length > 1 ? episodes[0].name : episodes.name }}
+							</router-link>
 						</v-card-text>
 					</div>
 				</v-row>
