@@ -21,9 +21,9 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 		}
 	};
 
-	const getCharacter = async (id) => {
+	const getCharactersById = async (idArr) => {
 		try {
-			const {data} = await axios.get(`character/${id}`)
+			const {data} = await axios.get(`character/${idArr}`)
 			characters.value = data
 		} catch (e) {
 
@@ -47,5 +47,5 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 		}
 		return Array.from(randomIdsArr).toString()
 	}
-	return {characters, pages, getCharacters, getCharacter, getRandomCharacters}
+	return {characters, pages, getCharacters, getCharactersById, getRandomCharacters}
 })

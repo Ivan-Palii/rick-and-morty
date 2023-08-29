@@ -27,6 +27,11 @@ const routes = [
 				component: () => import('@/pages/main/LocationPage.vue'),
 			},
 			{
+				path: '/location',
+				name: 'LocationPage',
+				component: () => import('@/pages/main/LocationItemPage.vue')
+			},
+			{
 				path: '/episodes',
 				name: 'EpisodesPage',
 				component: () => import('@/pages/main/EpisodesPage.vue'),

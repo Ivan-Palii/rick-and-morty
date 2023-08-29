@@ -48,21 +48,27 @@ switch (props.character.status) {
 				</div>
 			</v-col>
 			<div class="d-flex flex-column">
-				<v-card-title class="text-wrap">
+				<v-card-title class="text-wrap flex-0-1">
 					<router-link :to="{path:'character',query:{id:character.id}}">
 						{{ character.name }}
 					</router-link>
 				</v-card-title>
-				<div class="d-flex justify-center align-center pl-4">
+				<div class="d-flex flex-0-1 justify-center align-center pl-4">
 					<v-avatar
 						size="13"
 						:color='color'
 					></v-avatar>
-					<v-card-text class="pa-1 pl-2 text-wrap">{{ character.status }} - {{ character.species }}
+					<v-card-text class="pa-1 pl-2 text-wrap ">
+						{{ character.status }} - {{ character.species }}
 					</v-card-text>
 				</div>
-				<v-card-text class="pa-1 pl-4 text-wrap">Gender: {{ character.gender }}</v-card-text>
-				<v-card-text class="pa-1 pl-4 text-wrap">Last location: {{ character.location.name }}</v-card-text>
+				<v-card-text class="pa-1 pl-4 text-wrap flex-0-1">Gender: {{ character.gender }}</v-card-text>
+				<v-card-text class="pa-1 pl-4 text-wrap flex-0-1">
+					Last location:
+					<router-link :to="{path:'location',query: {id:character.location.url.split('/').pop()}}">
+						{{ character.location.name }}
+					</router-link>
+				</v-card-text>
 			</div>
 		</v-row>
 		<!--		{{ character }}-->
@@ -72,29 +78,4 @@ switch (props.character.status) {
 	scoped
 	lang="scss"
 >
-/*.character {
-	&_row {
-		flex-wrap: nowrap;
-		@media (max-width: 1280px) {
-			flex-wrap: wrap;
-		}
-	}
-	&_avatar-wrapper{
-		@media (max-width: 1280px) {
-			flex: 1 1 auto;
-			display: flex;
-			justify-content: center;
-		}
-		@media (max-width: 960px) {
-			flex: 0 0 auto;
-			display: flex;
-			align-items: unset;
-		}
-		@media (max-width: 670px) {
-			flex: 0 0 100%;
-			display: flex;
-			align-items: unset;
-		}
-	}
-}*/
 </style>

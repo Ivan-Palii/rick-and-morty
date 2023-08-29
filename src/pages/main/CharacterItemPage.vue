@@ -1,7 +1,7 @@
 <script setup>
 import {useCharactersStore} from "@/store/charactersStore.js";
 import {useEpisodesStore} from "@/store/episodesStore.js"
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watchEffect} from "vue";
 import {storeToRefs} from "pinia"
 import {useMainStore} from "@/store/mainStore.js";
 import ItemLoader from "@/components/ItemLoader.vue";
@@ -9,7 +9,7 @@ import EpisodeCard from "@/components/episodes/EpisodeCard.vue";
 import {useRoute} from 'vue-router';
 
 const {delay} = useMainStore()
-const {getCharacter} = useCharactersStore()
+const {getCharactersById} = useCharactersStore()
 const {characters} = storeToRefs(useCharactersStore())
 const {getEpisodesById} = useEpisodesStore()
 const {episodes} = storeToRefs(useEpisodesStore())
@@ -17,15 +17,11 @@ const {episodes} = storeToRefs(useEpisodesStore())
 const loader = ref(false)
 const route = useRoute()
 
-onMounted(async () => {
+watchEffect(async () => {
 	loader.value = true
-	console.log(route.query.id)
 	await delay(500)
-	await getCharacter(route.query.id)
-	const idArr = characters.value.episode.map(e => e.split('/').pop())
-	console.log(idArr)
-	await getEpisodesById(idArr)
-	console.log(episodes.value)
+	await getCharactersById(route.query.id)
+	await getEpisodesById(characters.value.episode.map(e => e.split('/').pop()))
 	setColor()
 	loader.value = false
 })
@@ -55,12 +51,11 @@ function setColor() {
 		</template>
 		<template v-else>
 			<v-card>
-				<v-row class="ma-0 character_row">
+				<v-row class="ma-0">
 					<div class="pa-4 ">
 						<v-avatar
 							color="surface-variant"
 							size="164"
-							class="character_avatar"
 						>
 							<v-img
 								aspect-ratio="1/1"
@@ -83,10 +78,25 @@ function setColor() {
 						</div>
 						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">Gender: {{ characters.gender }}</v-card-text>
 						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">
-							Origin: {{ characters.origin?.name }}
+							Origin:
+							<router-link
+								:to="{path:'location', query:{id: characters.origin.url.split('/').pop()}}"
+								v-if="characters.origin.url"
+							>
+								{{ characters.origin?.name }}
+							</router-link>
+							<span v-else>
+								{{ characters.origin?.name }}
+							</span>
 						</v-card-text>
 						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">
-							Last known location: {{ characters.location?.name }}
+							Last known location:
+							<router-link :to="{path: 'location',query: {id:characters.location.url.split('/').pop()}}">
+								{{ characters.location?.name }}
+							</router-link>
+						</v-card-text>
+						<v-card-text class="pa-1 pl-4 text-wrap flex-0-0">
+							First seen in: {{ episodes?.length > 1 ? episodes[0].name : episodes.name }}
 						</v-card-text>
 					</div>
 				</v-row>
@@ -99,7 +109,7 @@ function setColor() {
 							cols='12'
 							md='6'
 							sm='12'
-							class='d-flex character-item'
+							class='d-flex'
 							v-for='episode in episodes'
 							:key='episode.id'
 							v-if="episodes?.length>1"
@@ -110,7 +120,7 @@ function setColor() {
 							cols='12'
 							md='6'
 							sm='12'
-							class='d-flex character-item'
+							class='d-flex'
 							v-else
 						>
 							<EpisodeCard :episode="episodes"/>

@@ -14,5 +14,14 @@ export const useLocationsStore = defineStore('locationsStore', () => {
 		pages.value = data.info.pages
 		locations.value = data.results
 	}
-	return {locations, pages, getLocations}
+
+	const getLocationsById = async (idArr) => {
+		try {
+			const {data} = await axios.get(`location/${idArr}`)
+			locations.value = data
+		} catch (e) {
+		}
+
+	}
+	return {locations, pages, getLocations, getLocationsById}
 })
