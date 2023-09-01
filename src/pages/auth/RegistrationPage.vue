@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 
 const { users } = storeToRefs(useUsersStore());
 const { addNewUser } = useUsersStore();
-let newUser = ref({
+const newUser = ref({
 	firstName: '',
 	lastName: '',
 	password: '',
@@ -13,12 +13,12 @@ let newUser = ref({
 	phone: '',
 	dateOfBirth: null
 });
-const showState = reactive({ password: false, rPassword: false, menu: false });
+const showState = reactive({ password: false, rPassword: false });
+const isMenuOpen = ref(false);
+const isValid = ref(false);
 const rPassword = ref('');
 
 const emit = defineEmits('update:modelValue');
-
-const isMenuOpen = ref(false);
 
 const formattedDate = computed(() => {
 	return newUser.value.dateOfBirth ? newUser.value.dateOfBirth.toLocaleDateString('uk') : '';
@@ -33,16 +33,18 @@ watch(newUser.value.dateOfBirth, newDate => {
 });
 
 function submitNewUser() {
-	addNewUser(newUser.value);
-	newUser.value = {
-		firstName: '',
-		lastName: '',
-		password: '',
-		email: '',
-		phone: '',
-		dateOfBirth: null
-	};
-	rPassword.value = '';
+	if (isValid.value) {
+		addNewUser(newUser.value);
+		newUser.value = {
+			firstName: '',
+			lastName: '',
+			password: '',
+			email: '',
+			phone: '',
+			dateOfBirth: null
+		};
+		rPassword.value = '';
+	}
 }
 
 const emptyCheck = v => !!v || 'Field is required';
@@ -71,7 +73,12 @@ const rule = reactive({
 			max-width="1000"
 		>
 			<h2 class="text-h3 text-center my-6">Registration</h2>
-			<VForm @submit.prevent="submitNewUser">
+			<VForm
+				v-model="isValid"
+				ref="registration"
+				lazy-validation
+				@submit.prevent="submitNewUser"
+			>
 				<VContainer>
 					<VRow>
 						<VCol
@@ -215,5 +222,6 @@ const rule = reactive({
 			</VForm>
 		</VCard>
 	</div>
+	{{ users }}
 </template>
 <style scoped lang="scss"></style>
