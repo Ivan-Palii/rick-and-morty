@@ -40,7 +40,7 @@ const items = [
 			/>
 			<VToolbarTitle>Rick and Morty</VToolbarTitle>
 			<VSpacer/>
-			<RouterLink :to="{path:'/auth/login'}">
+			<RouterLink :to="{path:'/auth/registration'}">
 				<VBtn
 					variant="text"
 					icon="mdi-login"

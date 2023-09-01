@@ -2,7 +2,7 @@
 </script>
 <template>
 	<h1>Auth</h1>
-	<router-view/>
+	<RouterView/>
 </template>
 <style scoped>
 </style>
