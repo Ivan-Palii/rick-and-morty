@@ -1,32 +1,35 @@
 <script setup>
-import {ref} from "vue";
-import {useMainStore} from "@/store/mainStore.js";
-import TheFooter from "@/components/TheFooter.vue";
+import { ref } from 'vue';
+import { useMainStore } from '@/store/mainStore.js';
+import { useUsersStore } from '@/store/usersStore.js';
+import TheFooter from '@/components/TheFooter.vue';
+import { storeToRefs } from 'pinia';
 
-const drawer = ref(false)
-
+const { loggedUser } = storeToRefs(useUsersStore());
+const drawer = ref(false);
+const isLogged = ref(!!loggedUser?.value);
 const items = [
 	{
 		title: 'Home',
 		value: 'home',
-		to: {path: '/'},
+		to: { path: '/' }
 	},
 	{
 		title: 'Characters',
 		value: 'characters',
-		to: {path: '/characters', query: {page: 1}},
+		to: { path: '/characters', query: { page: 1 } }
 	},
 	{
 		title: 'Locations',
 		value: 'locations',
-		to: {path: '/locations', query: {page: 1}},
+		to: { path: '/locations', query: { page: 1 } }
 	},
 	{
 		title: 'Episodes',
 		value: 'episodes',
-		to: {path: '/episodes', query: {page: 1}},
-	},
-]
+		to: { path: '/episodes', query: { page: 1 } }
+	}
+];
 </script>
 <template>
 	<VLayout class="overflow-y-auto flex-column">
@@ -35,21 +38,23 @@ const items = [
 			prominent
 		>
 			<VAppBarNavIcon
+				v-if="isLogged"
 				variant="text"
 				@click.stop="drawer = !drawer"
 			/>
 			<VToolbarTitle>Rick and Morty</VToolbarTitle>
-			<VSpacer/>
-			<RouterLink :to="{path:'/auth/registration'}">
+			<VSpacer />
+			<RouterLink
+				v-if="!isLogged"
+				:to="{ path: '/auth/login' }"
+			>
 				<VBtn
 					variant="text"
 					icon="mdi-login"
 				/>
 			</RouterLink>
 		</VAppBar>
-		<VNavigationDrawer
-			v-model="drawer"
-		>
+		<VNavigationDrawer v-model="drawer">
 			<VList
 				nav
 				dense
@@ -65,10 +70,9 @@ const items = [
 			</VList>
 		</VNavigationDrawer>
 		<VMain class="flex-1-1">
-			<RouterView/>
+			<RouterView />
 		</VMain>
-		<TheFooter/>
+		<TheFooter />
 	</VLayout>
 </template>
-<style scoped>
-</style>
+<style scoped></style>

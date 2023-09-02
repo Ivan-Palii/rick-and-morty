@@ -2,10 +2,8 @@
 import { reactive, ref, computed, watch, defineEmits } from 'vue';
 import { useUsersStore } from '@/store/usersStore.js';
 import { useSnackbarStore } from '@/store/snackbarStore.js';
-import { storeToRefs } from 'pinia';
 import router from '@/router/index.js';
 
-const { users } = storeToRefs(useUsersStore());
 const { addNewUser, checkEmail } = useUsersStore();
 const { setSnackbarParams } = useSnackbarStore();
 const newUser = ref({
@@ -70,7 +68,7 @@ const rule = reactive({
 			width="100%"
 			max-width="1000"
 		>
-			<h2 class="text-h3 text-center my-6">Registration</h2>
+			<VCardTitle class="text-h3 text-center py-8">Registration</VCardTitle>
 			<VForm
 				v-model="isValid"
 				ref="registration"
@@ -206,7 +204,7 @@ const rule = reactive({
 							variant="text"
 							plain
 						>
-							have account?
+							Have account?
 						</VBtn>
 						<VBtn
 							width="150"
@@ -220,6 +218,5 @@ const rule = reactive({
 			</VForm>
 		</VCard>
 	</div>
-	{{ users }}
 </template>
 <style scoped lang="scss"></style>

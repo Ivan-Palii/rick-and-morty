@@ -1,6 +1,7 @@
 <script setup>
 //
 import TheSnackbar from '@/components/TheSnackbar.vue';
+
 </script>
 <template>
 	<VApp>
