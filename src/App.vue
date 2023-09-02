@@ -1,9 +1,10 @@
 <script setup>
 //
+import TheSnackbar from '@/components/TheSnackbar.vue';
 </script>
 <template>
-	<v-app>
-		<router-view/>
-	</v-app>
+	<VApp>
+		<RouterView />
+		<TheSnackbar />
+	</VApp>
 </template>
-

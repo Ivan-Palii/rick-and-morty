@@ -1,10 +1,13 @@
 <script setup>
 import { reactive, ref, computed, watch, defineEmits } from 'vue';
 import { useUsersStore } from '@/store/usersStore.js';
+import { useSnackbarStore } from '@/store/snackbarStore.js';
 import { storeToRefs } from 'pinia';
+import router from '@/router/index.js';
 
 const { users } = storeToRefs(useUsersStore());
-const { addNewUser } = useUsersStore();
+const { addNewUser, checkEmail } = useUsersStore();
+const { setSnackbarParams } = useSnackbarStore();
 const newUser = ref({
 	firstName: '',
 	lastName: '',
@@ -32,18 +35,13 @@ watch(newUser.value.dateOfBirth, newDate => {
 	emit('update:modelValue', newDate);
 });
 
-function submitNewUser() {
-	if (isValid.value) {
+async function submitNewUser() {
+	if (isValid.value && !checkEmail(newUser.value)) {
 		addNewUser(newUser.value);
-		newUser.value = {
-			firstName: '',
-			lastName: '',
-			password: '',
-			email: '',
-			phone: '',
-			dateOfBirth: null
-		};
-		rPassword.value = '';
+		await router.push({ name: 'LoginPage' });
+		setSnackbarParams({ isOpen: true, message: 'Registration successful', color: 'green' });
+	} else if (isValid.value && checkEmail(newUser.value)) {
+		setSnackbarParams({ isOpen: true, message: 'This email already used', color: 'red' });
 	}
 }
 

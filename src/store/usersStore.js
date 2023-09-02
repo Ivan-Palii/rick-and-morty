@@ -20,5 +20,9 @@ export const useUsersStore = defineStore('usersStore', () => {
 		users.value.push(user);
 	};
 
-	return { users, addNewUser };
+	const checkEmail = user => {
+		return !!users.value.filter(u => u.email === user.email).length;
+	};
+
+	return { users, addNewUser, checkEmail };
 });
