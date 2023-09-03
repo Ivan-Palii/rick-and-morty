@@ -7,10 +7,11 @@ import { useMainStore } from '@/store/mainStore.js';
 import ItemLoader from '@/components/ItemLoader.vue';
 import CharacterCard from '@/components/characters/CharacterCard.vue';
 import { useRoute } from 'vue-router';
+import LikeBtn from '@/components/LikeBtn.vue';
 
 const { delay } = useMainStore();
-const { getCharactersById } = useCharactersStore();
-const { getEpisodesById } = useEpisodesStore();
+const { getCharactersById, onCharacterClick } = useCharactersStore();
+const { getEpisodesById, onEpisodeClick } = useEpisodesStore();
 const { characters } = storeToRefs(useCharactersStore());
 const { episodes } = storeToRefs(useEpisodesStore());
 
@@ -71,7 +72,10 @@ watchEffect(async () => {
 						sm="12"
 						class="d-flex"
 					>
-						<CharacterCard :character="character" />
+						<CharacterCard
+							:character="character"
+							:on-click="onCharacterClick"
+						/>
 					</VCol>
 					<VCol
 						v-else
@@ -80,9 +84,17 @@ watchEffect(async () => {
 						sm="12"
 						class="d-flex"
 					>
-						<CharacterCard :character="characters" />
+						<CharacterCard
+							:character="characters"
+							:on-click="onCharacterClick"
+						/>
 					</VCol>
 				</VRow>
+				<LikeBtn
+					:btn-active="episodes.isLiked"
+					:on-click="onEpisodeClick"
+					:item-id="episodes.id"
+				/>
 			</VCard>
 		</template>
 	</VContainer>

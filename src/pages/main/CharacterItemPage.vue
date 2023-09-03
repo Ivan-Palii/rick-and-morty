@@ -12,7 +12,7 @@ import LikeBtn from '@/components/LikeBtn.vue';
 const { delay } = useMainStore();
 const { getCharactersById, onCharacterClick } = useCharactersStore();
 const { characters } = storeToRefs(useCharactersStore());
-const { getEpisodesById } = useEpisodesStore();
+const { getEpisodesById, onEpisodeClick } = useEpisodesStore();
 const { episodes } = storeToRefs(useEpisodesStore());
 
 const loader = ref(false);
@@ -136,7 +136,10 @@ function setColor() {
 							sm="12"
 							class="d-flex"
 						>
-							<EpisodeCard :episode="episode" />
+							<EpisodeCard
+								:episode="episode"
+								:on-click="onEpisodeClick"
+							/>
 						</VCol>
 						<VCol
 							v-else
@@ -145,7 +148,10 @@ function setColor() {
 							sm="12"
 							class="d-flex"
 						>
-							<EpisodeCard :episode="episodes" />
+							<EpisodeCard
+								:episode="episodes"
+								:on-click="onEpisodeClick"
+							/>
 						</VCol>
 					</VRow>
 				</VRow>

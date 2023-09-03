@@ -29,7 +29,6 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 			} else {
 				loggedUser.value.likedCharacters.splice(index, 1);
 			}
-			console.log(!characters.value.length, characters.value.length);
 			if (characters.value.length) setLikedCharacters();
 			else characters.value.isLiked = !characters.value.isLiked;
 		} else {
@@ -53,9 +52,10 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 		try {
 			const { data } = await axios.get(`character/${idArr}`);
 			characters.value = data;
-			characters.value.isLiked =
-				loggedUser.value.likedCharacters !== undefined &&
-				loggedUser.value.likedCharacters.indexOf(characters.value.id) !== -1;
+			if (characters.value.length) setLikedCharacters();
+			else
+				characters.value.isLiked =
+					loggedUser.value.likedCharacters.indexOf(characters.value.id) !== -1;
 		} catch (e) {}
 	};
 
