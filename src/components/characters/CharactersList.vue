@@ -1,7 +1,9 @@
 <script setup>
-import CharacterCard from '@/components/characters/CharacterCard.vue'
-import TheLoader from '@/components/TheLoader.vue'
+import CharacterCard from '@/components/characters/CharacterCard.vue';
+import TheLoader from '@/components/TheLoader.vue';
+import { useCharactersStore } from '@/store/charactersStore.js';
 
+const { onCharacterClick } = useCharactersStore();
 const props = defineProps({
 	characters: {
 		type: Object,
@@ -11,35 +13,37 @@ const props = defineProps({
 		type: Boolean,
 		required: true
 	}
-})
+});
 </script>
 <template>
-	<v-container class='wrap lighten-5 pa-4'>
-		<v-row>
-			<template v-if='loader'>
-				<v-col
-					cols='12'
-					md='6'
-					sm='12'
-					v-for='n in 10'
-					class='pr-16 pl-16'
+	<VContainer class="wrap lighten-5 pa-4">
+		<VRow>
+			<template v-if="loader">
+				<VCol
+					v-for="n in 10"
+					cols="12"
+					md="6"
+					sm="12"
+					class="pr-16 pl-16"
 				>
-					<TheLoader/>
-				</v-col>
+					<TheLoader />
+				</VCol>
 			</template>
 			<template v-else>
-				<v-col
-					cols='12'
-					md='6'
-					sm='12'
-					v-for='character in characters'
-					:key='character.id'
-					class='d-flex character-item'
+				<VCol
+					v-for="character in characters"
+					:key="character.id"
+					cols="12"
+					md="6"
+					sm="12"
+					class="d-flex character-item"
 				>
-					<CharacterCard :character="character"/>
-				</v-col>
+					<CharacterCard
+						:character="character"
+						:on-click="onCharacterClick"
+					/>
+				</VCol>
 			</template>
-		</v-row>
-	</v-container>
+		</VRow>
+	</VContainer>
 </template>
-

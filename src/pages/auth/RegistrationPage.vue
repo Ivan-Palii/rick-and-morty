@@ -12,7 +12,10 @@ const newUser = ref({
 	password: '',
 	email: '',
 	phone: '',
-	dateOfBirth: null
+	dateOfBirth: null,
+	likedCharacters: [1],
+	likedEpisodes: [],
+	likedLocations: []
 });
 const showState = reactive({ password: false, rPassword: false });
 const isMenuOpen = ref(false);

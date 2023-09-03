@@ -1,5 +1,5 @@
 // Composables
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
 	{
@@ -9,12 +9,12 @@ const routes = [
 			{
 				path: '',
 				name: 'HomePage',
-				component: () => import('@/pages/main/HomePage.vue'),
+				component: () => import('@/pages/main/HomePage.vue')
 			},
 			{
 				path: '/characters',
 				name: 'CharactersPage',
-				component: () => import('@/pages/main/CharactersPage.vue'),
+				component: () => import('@/pages/main/CharactersPage.vue')
 			},
 			{
 				path: '/character',
@@ -24,7 +24,7 @@ const routes = [
 			{
 				path: '/locations',
 				name: 'LocationsPage',
-				component: () => import('@/pages/main/LocationsPage.vue'),
+				component: () => import('@/pages/main/LocationsPage.vue')
 			},
 			{
 				path: '/location',
@@ -34,14 +34,14 @@ const routes = [
 			{
 				path: '/episodes',
 				name: 'EpisodesPage',
-				component: () => import('@/pages/main/EpisodesPage.vue'),
+				component: () => import('@/pages/main/EpisodesPage.vue')
 			},
 			{
 				path: '/episode',
 				name: 'EpisodePage',
-				component: () => import('@/pages/main/EpisodeItemPage.vue'),
-			},
-		],
+				component: () => import('@/pages/main/EpisodeItemPage.vue')
+			}
+		]
 	},
 	{
 		path: '/auth/',
@@ -57,13 +57,18 @@ const routes = [
 				name: 'RegistrationPage',
 				component: () => import('@/pages/auth/RegistrationPage.vue')
 			},
-		],
-	},
-]
+			{
+				path: 'personal-page',
+				name: 'PersonalPage',
+				component: () => import('@/pages/auth/PersonalPage.vue')
+			}
+		]
+	}
+];
 
 const router = createRouter({
 	history: createWebHistory(process.env.BASE_URL),
-	routes,
-})
+	routes
+});
 
-export default router
+export default router;

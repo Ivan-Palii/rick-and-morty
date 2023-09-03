@@ -3,7 +3,7 @@ import { ref, watch } from 'vue';
 
 export const useUsersStore = defineStore('usersStore', () => {
 	const users = ref([]);
-	const loggedUser = ref(null);
+	const loggedUser = ref({});
 	const usersInLocalStorage = localStorage.getItem('users');
 	if (usersInLocalStorage) {
 		users.value = JSON.parse(usersInLocalStorage)._value;
@@ -12,7 +12,7 @@ export const useUsersStore = defineStore('usersStore', () => {
 	if (loggedUserInLocalStorage) {
 		loggedUser.value = JSON.parse(loggedUserInLocalStorage)._value;
 	}
-
+	// watch for users changes
 	watch(
 		() => users,
 		state => {
@@ -20,10 +20,16 @@ export const useUsersStore = defineStore('usersStore', () => {
 		},
 		{ deep: true }
 	);
+
+	// watch for logged user changes
 	watch(
 		() => loggedUser,
 		state => {
 			localStorage.setItem('loggedUser', JSON.stringify(state));
+			users.value = users.value.map(el => {
+				if (el.email === loggedUser.value.email) el = loggedUser.value;
+				return el;
+			});
 		},
 		{ deep: true }
 	);
@@ -42,10 +48,14 @@ export const useUsersStore = defineStore('usersStore', () => {
 		}
 		return false;
 	};
+	const logoutUser = () => {
+		console.log('called');
+		loggedUser.value = {};
+	};
 
 	const checkEmail = user => {
 		return !!users.value.filter(u => u.email === user.email).length;
 	};
 
-	return { users, loggedUser, addNewUser, checkEmail, loginUser };
+	return { users, loggedUser, addNewUser, checkEmail, loginUser, logoutUser };
 });
