@@ -8,7 +8,7 @@ const props = defineProps({
 		required: true,
 		type: Function
 	},
-	characterId: {
+	itemId: {
 		required: true,
 		type: Number
 	}
@@ -20,7 +20,7 @@ const props = defineProps({
 		icon="mdi-heart"
 		variant="text"
 		class="like-btn"
-		@click="onClick(characterId)"
+		@click="onClick(itemId)"
 	/>
 </template>
 <style scoped>

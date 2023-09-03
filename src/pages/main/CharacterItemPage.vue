@@ -7,9 +7,10 @@ import { useMainStore } from '@/store/mainStore.js';
 import ItemLoader from '@/components/ItemLoader.vue';
 import EpisodeCard from '@/components/episodes/EpisodeCard.vue';
 import { useRoute } from 'vue-router';
+import LikeBtn from '@/components/LikeBtn.vue';
 
 const { delay } = useMainStore();
-const { getCharactersById } = useCharactersStore();
+const { getCharactersById, onCharacterClick } = useCharactersStore();
 const { characters } = storeToRefs(useCharactersStore());
 const { getEpisodesById } = useEpisodesStore();
 const { episodes } = storeToRefs(useEpisodesStore());
@@ -148,6 +149,11 @@ function setColor() {
 						</VCol>
 					</VRow>
 				</VRow>
+				<LikeBtn
+					:item-id="characters.id"
+					:btn-active="characters.isLiked"
+					:on-click="onCharacterClick"
+				/>
 			</VCard>
 		</template>
 	</VContainer>

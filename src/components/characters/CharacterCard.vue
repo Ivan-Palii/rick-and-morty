@@ -86,7 +86,7 @@ switch (props.character.status) {
 		<LikeBtn
 			:btn-active="character.isLiked"
 			:on-click="onClick"
-			:character-id="character.id"
+			:item-id="character.id"
 		/>
 	</VCard>
 </template>

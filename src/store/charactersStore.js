@@ -29,7 +29,9 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 			} else {
 				loggedUser.value.likedCharacters.splice(index, 1);
 			}
-			setLikedCharacters();
+			console.log(!characters.value.length, characters.value.length);
+			if (characters.value.length) setLikedCharacters();
+			else characters.value.isLiked = !characters.value.isLiked;
 		} else {
 			setSnackbarParams({ isOpen: true, message: "You're not loggedin.", color: 'red' });
 		}
@@ -51,7 +53,9 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 		try {
 			const { data } = await axios.get(`character/${idArr}`);
 			characters.value = data;
-			characters.value = setLikedCharacters();
+			characters.value.isLiked =
+				loggedUser.value.likedCharacters !== undefined &&
+				loggedUser.value.likedCharacters.indexOf(characters.value.id) !== -1;
 		} catch (e) {}
 	};
 
