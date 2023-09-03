@@ -35,7 +35,6 @@ export const useEpisodesStore = defineStore('EpisodesStore', () => {
 		} else {
 			setSnackbarParams({ isOpen: true, message: "You're not loggedin.", color: 'red' });
 		}
-		console.log(loggedUser.value.likedEpisodes);
 	}
 
 	const getEpisodes = async (params = {}) => {
