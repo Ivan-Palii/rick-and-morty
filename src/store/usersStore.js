@@ -27,7 +27,7 @@ export const useUsersStore = defineStore('usersStore', () => {
 		state => {
 			localStorage.setItem('loggedUser', JSON.stringify(state));
 			users.value = users.value.map(el => {
-				if (el.email === loggedUser.value.email) el = loggedUser.value;
+				if (el.id === loggedUser.value.id) el = loggedUser.value;
 				return el;
 			});
 		},
@@ -54,7 +54,15 @@ export const useUsersStore = defineStore('usersStore', () => {
 	};
 
 	const checkEmail = user => {
-		return !!users.value.filter(u => u.email === user.email).length;
+		return users.value.length === 0
+			? false
+			: !!users.value.filter(
+					u =>
+						(loggedUser.value.id === undefined && u.email === user.email) ||
+						(u.email === user.email &&
+							loggedUser.value.id !== undefined &&
+							u.id !== loggedUser.value.id)
+			  ).length;
 	};
 
 	return { users, loggedUser, addNewUser, checkEmail, loginUser, logoutUser };

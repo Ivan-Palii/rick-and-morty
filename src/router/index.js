@@ -40,6 +40,11 @@ const routes = [
 				path: '/episode',
 				name: 'EpisodePage',
 				component: () => import('@/pages/main/EpisodeItemPage.vue')
+			},
+			{
+				path: '/personal-page',
+				name: 'PersonalPage',
+				component: () => import('@/pages/main/PersonalPage.vue')
 			}
 		]
 	},
@@ -56,11 +61,6 @@ const routes = [
 				path: 'registration',
 				name: 'RegistrationPage',
 				component: () => import('@/pages/auth/RegistrationPage.vue')
-			},
-			{
-				path: 'personal-page',
-				name: 'PersonalPage',
-				component: () => import('@/pages/auth/PersonalPage.vue')
 			}
 		]
 	}

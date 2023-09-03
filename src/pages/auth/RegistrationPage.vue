@@ -13,9 +13,10 @@ const newUser = ref({
 	email: '',
 	phone: '',
 	dateOfBirth: null,
-	likedCharacters: [1],
+	likedCharacters: [],
 	likedEpisodes: [],
-	likedLocations: []
+	likedLocations: [],
+	id: undefined
 });
 const showState = reactive({ password: false, rPassword: false });
 const isMenuOpen = ref(false);
@@ -38,6 +39,7 @@ watch(newUser.value.dateOfBirth, newDate => {
 
 async function submitNewUser() {
 	if (isValid.value && !checkEmail(newUser.value)) {
+		newUser.value.id = Date.now();
 		addNewUser(newUser.value);
 		await router.push({ name: 'LoginPage' });
 		setSnackbarParams({ isOpen: true, message: 'Registration successful', color: 'green' });
@@ -79,6 +81,7 @@ const rule = reactive({
 				@submit.prevent="submitNewUser"
 			>
 				<VContainer>
+					<!--First name / Last name-->
 					<VRow>
 						<VCol
 							cols="12"
@@ -106,6 +109,7 @@ const rule = reactive({
 							/>
 						</VCol>
 					</VRow>
+					<!--Date of birth / Phone-->
 					<VRow>
 						<VCol
 							cols="12"
@@ -151,6 +155,7 @@ const rule = reactive({
 							/>
 						</VCol>
 					</VRow>
+					<!--Email-->
 					<VRow>
 						<VCol
 							cols="12"
@@ -166,6 +171,7 @@ const rule = reactive({
 							/>
 						</VCol>
 					</VRow>
+					<!--Password / Repeat password-->
 					<VRow>
 						<VCol
 							cols="12"
@@ -198,6 +204,7 @@ const rule = reactive({
 							/>
 						</VCol>
 					</VRow>
+					<!--Action btn`s-->
 					<VRow
 						justify="space-between"
 						class="ma-0"
