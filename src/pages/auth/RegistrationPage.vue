@@ -12,6 +12,7 @@ const newUser = ref({
 	password: '',
 	email: '',
 	phone: '',
+	img: '',
 	dateOfBirth: null,
 	likedCharacters: [],
 	likedEpisodes: [],

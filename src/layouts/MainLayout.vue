@@ -80,7 +80,7 @@ const logout = () => {
 							color="pink"
 							size="36"
 						>
-							<img
+							<VImg
 								v-if="loggedUser.img"
 								:src="loggedUser.img"
 								alt=" "
@@ -98,7 +98,7 @@ const logout = () => {
 					<VList class="justify-center">
 						<div class="mx-auto text-center">
 							<VAvatar color="pink">
-								<img
+								<VImg
 									v-if="loggedUser.img"
 									:src="loggedUser.img"
 									alt=" "

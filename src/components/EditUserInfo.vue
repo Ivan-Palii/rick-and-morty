@@ -14,6 +14,7 @@ const changedData = ref({});
 const rPassword = ref('');
 const showState = reactive({ password: false, rPassword: false });
 const emit = defineEmits('update:modelValue');
+const img = ref('');
 
 const formattedDate = computed(() => {
 	return changedData.value.dateOfBirth
@@ -29,9 +30,20 @@ watch(changedData.value.dateOfBirth, newDate => {
 	emit('update:modelValue', newDate);
 });
 
+watch(img, newImg => {
+	if (newImg[0]) updateProfilePicture(newImg[0]);
+});
+
+function updateProfilePicture(img) {
+	const reader = new FileReader();
+	reader.addEventListener('load', () => {
+		changedData.value.img = reader.result;
+	});
+	reader.readAsDataURL(img);
+}
+
 onMounted(() => {
-	changedData.value = JSON.parse(JSON.stringify(loggedUser.value));
-	changedData.value.dateOfBirth = new Date(changedData.value.dateOfBirth);
+	resetChangedData();
 });
 
 function resetChangedData() {
@@ -51,6 +63,7 @@ function submitNewUserData() {
 
 function closeDialog() {
 	rPassword.value = '';
+	img.value = '';
 	dialog.value = false;
 }
 const emptyCheck = v => !!v || 'Field is required';
@@ -98,8 +111,41 @@ const rule = reactive({
 						@submit.prevent="submitNewUserData"
 					>
 						<VContainer>
-							<!--First name / Last name-->
+							<!--Profile picture / First name / Last name-->
 							<VRow>
+								<VCol
+									cols="12"
+									ml="9"
+									md="6"
+									class="d-flex justify-center"
+								>
+									<VAvatar
+										size="350"
+										class="d-block"
+										rounded
+									>
+										<VImg
+											v-if="changedData.img"
+											:src="changedData.img"
+											aspect-ratio="1/1"
+											alt=" "
+										/>
+										<VImg
+											v-else
+											src="https://profile-images.xing.com/images/3defc3c1afaf544148aa9929d45fe69a-1/rolf-eppinger.1024x1024.jpg"
+											alt="Profile picture"
+											aspect-ratio="1/1"
+										/>
+										<div class="update-user-img">
+											<VFileInput
+												v-model="img"
+												class="file-input"
+												accept="image/*"
+												prepend-icon="mdi-camera"
+											/>
+										</div>
+									</VAvatar>
+								</VCol>
 								<VCol
 									cols="12"
 									md="6"
@@ -111,12 +157,6 @@ const rule = reactive({
 										label="First name"
 										required
 									/>
-								</VCol>
-								<VCol
-									cols="12"
-									ml="9"
-									md="6"
-								>
 									<VCardTitle class="pa-0 mb-3">Last name</VCardTitle>
 									<VTextField
 										v-model="changedData.lastName"
@@ -142,7 +182,7 @@ const rule = reactive({
 												:model-value="formattedDate"
 												:rules="rule.notEmpty"
 												v-bind="props"
-												:append-icon="'mdi-calendar'"
+												:append-inner-icon="'mdi-calendar'"
 												label="Birth date"
 												readonly
 												hide-details
@@ -225,6 +265,7 @@ const rule = reactive({
 									/>
 								</VCol>
 							</VRow>
+							<!--Btn`s-->
 							<VRow
 								justify="space-between"
 								class="ma-0"
@@ -251,10 +292,29 @@ const rule = reactive({
 		</VDialog>
 	</VRow>
 </template>
-<style scoped>
+<style scoped lang="scss">
 .edit-user-btn {
 	position: absolute;
 	top: 5px;
 	right: 5px;
+}
+.update-user-img {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+.file-input {
+	&::v-deep {
+		.v-input__prepend {
+			margin-inline-end: 0;
+			height: 32px;
+			width: 32px;
+		}
+		.v-input__control,
+		.v-input__details {
+			display: none;
+		}
+	}
 }
 </style>

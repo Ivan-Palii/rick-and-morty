@@ -21,10 +21,16 @@ const { loggedUser } = storeToRefs(useUsersStore());
 						rounded
 					>
 						<VImg
+							v-if="loggedUser.img"
+							:src="loggedUser.img"
+							aspect-ratio="1/1"
+							alt=" "
+						/>
+						<VImg
+							v-else
 							src="https://profile-images.xing.com/images/3defc3c1afaf544148aa9929d45fe69a-1/rolf-eppinger.1024x1024.jpg"
 							alt="Profile picture"
 							aspect-ratio="1/1"
-							cover
 						/>
 					</VAvatar>
 				</VCol>
