@@ -2,10 +2,9 @@
 import { useUsersStore } from '@/store/usersStore.js';
 import { storeToRefs } from 'pinia';
 import EditUserInfo from '@/components/EditUserInfo.vue';
-import { onMounted, ref } from 'vue';
+import LikedItemsTable from '@/components/LikedItemsTable.vue';
 
 const { loggedUser } = storeToRefs(useUsersStore());
-
 </script>
 <template>
 	<VContainer>
@@ -53,6 +52,7 @@ const { loggedUser } = storeToRefs(useUsersStore());
 			</VRow>
 			<EditUserInfo />
 		</VCard>
+		<LikedItemsTable />
 	</VContainer>
 </template>
 <style scoped>
@@ -60,5 +60,3 @@ const { loggedUser } = storeToRefs(useUsersStore());
 	opacity: 1;
 }
 </style>
-
-<!--https://profile-images.xing.com/images/3defc3c1afaf544148aa9929d45fe69a-1/rolf-eppinger.1024x1024.jpg-->

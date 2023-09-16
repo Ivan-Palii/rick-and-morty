@@ -18,7 +18,10 @@ const props = defineProps({
 			<VCol>
 				<VCardTitle>
 					Location name:
-					<RouterLink :to="{ path: 'location', query: { id: location.id } }">
+					<RouterLink
+						:to="{ path: 'location', query: { id: location.id } }"
+						class="link"
+					>
 						{{ location.name }}
 					</RouterLink>
 				</VCardTitle>

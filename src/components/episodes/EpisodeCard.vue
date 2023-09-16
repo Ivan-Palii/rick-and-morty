@@ -17,7 +17,10 @@ const props = defineProps({
 		<VRow>
 			<VCol>
 				<VCardTitle>
-					<RouterLink :to="{ path: 'episode', query: { id: episode.id } }">
+					<RouterLink
+						:to="{ path: 'episode', query: { id: episode.id } }"
+						class="link"
+					>
 						{{ episode.name }}
 					</RouterLink>
 				</VCardTitle>

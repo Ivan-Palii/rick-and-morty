@@ -89,6 +89,7 @@ function setColor() {
 									path: 'location',
 									query: { id: characters.origin.url.split('/').pop() }
 								}"
+								class="link"
 							>
 								{{ characters.origin?.name }}
 							</RouterLink>
@@ -103,6 +104,7 @@ function setColor() {
 									path: 'location',
 									query: { id: characters.location.url.split('/').pop() }
 								}"
+								class="link"
 							>
 								{{ characters.location?.name }}
 							</RouterLink>
@@ -116,6 +118,7 @@ function setColor() {
 										id: episodes?.length > 1 ? episodes[0].id : episodes.id
 									}
 								}"
+								class="link"
 							>
 								{{ episodes?.length > 1 ? episodes[0].name : episodes.name }}
 							</RouterLink>

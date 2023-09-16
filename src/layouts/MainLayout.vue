@@ -148,6 +148,7 @@ const logout = () => {
 					v-for="(item, i) in items"
 					:to="item.to"
 					:key="i"
+					class="link"
 					link
 				>
 					{{ item.title }}

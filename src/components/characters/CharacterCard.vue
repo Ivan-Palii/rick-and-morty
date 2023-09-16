@@ -54,7 +54,10 @@ switch (props.character.status) {
 			</VCol>
 			<div class="d-flex flex-column">
 				<VCardTitle class="text-wrap flex-0-1">
-					<RouterLink :to="{ path: 'character', query: { id: character.id } }">
+					<RouterLink
+						:to="{ path: 'character', query: { id: character.id } }"
+						class="link"
+					>
 						{{ character.name }}
 					</RouterLink>
 				</VCardTitle>
@@ -77,6 +80,7 @@ switch (props.character.status) {
 							path: 'location',
 							query: { id: character.location.url.split('/').pop() }
 						}"
+						class="link"
 					>
 						{{ character.location.name }}
 					</RouterLink>
