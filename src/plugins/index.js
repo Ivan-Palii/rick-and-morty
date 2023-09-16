@@ -25,5 +25,5 @@ export function registerPlugins(app) {
 	loadFonts();
 	app.directive('mask', vMaskV3);
 	app.component('VueDatePicker', VueDatePicker);
-	app.use(i18n).use(vuetify).use(router).use(pinia);
+	app.use(pinia).use(i18n).use(vuetify).use(router);
 }

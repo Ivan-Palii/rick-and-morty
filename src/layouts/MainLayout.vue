@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useMainStore } from '@/store/mainStore.js';
 import { useUsersStore } from '@/store/usersStore.js';
 import TheFooter from '@/components/TheFooter.vue';
@@ -42,6 +42,10 @@ const logout = () => {
 	logoutUser();
 	router.go();
 };
+
+/*onMounted(() => {
+	if (!isLogged.value) router.push({ path: '/' });
+});*/
 </script>
 <template>
 	<VLayout class="overflow-y-auto flex-column">

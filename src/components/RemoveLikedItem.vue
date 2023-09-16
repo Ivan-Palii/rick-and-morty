@@ -61,7 +61,7 @@ function onClick(itemId) {
 		</template>
 		<VCard class="ma-0 h-100">
 			<VCardTitle class="text-center">
-				<span class="text-h5">Confirm remove from like list</span>
+				<span class="text-h5 text-wrap">Confirm remove from like list</span>
 			</VCardTitle>
 			<VCardText>
 				Are you sure you want to remove

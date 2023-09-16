@@ -18,7 +18,7 @@ const { episodes } = storeToRefs(useEpisodesStore());
 const { delay } = useMainStore();
 const { getCharactersById } = useCharactersStore();
 const { getLocationsById } = useLocationsStore();
-const { getEpisodesById} = useEpisodesStore();
+const { getEpisodesById } = useEpisodesStore();
 
 const characterHeaders = ref([
 	{ title: '', sortable: false, key: 'image' },
@@ -48,7 +48,6 @@ const headers = ref();
 const items = ref();
 const destination = ref();
 const loading = ref(false);
-const dialogOpen = ref(false);
 
 watch(
 	loggedUser,
@@ -85,7 +84,6 @@ watchEffect(() => {
 		}
 	}
 });
-
 </script>
 <template>
 	<VCard class="mt-4 pa-4">
@@ -130,7 +128,10 @@ watchEffect(() => {
 						select-strategy="single"
 					>
 						<template #item.data-table-select="{ item }">
-							<RemoveLikedItem :item="item"  :tab="tab"/>
+							<RemoveLikedItem
+								:item="item"
+								:tab="tab"
+							/>
 						</template>
 						<template #item.image="{ item }">
 							<VAvatar>
