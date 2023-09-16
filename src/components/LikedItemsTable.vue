@@ -1,11 +1,12 @@
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import { useUsersStore } from '@/store/usersStore.js';
 import { useCharactersStore } from '@/store/charactersStore.js';
 import { useLocationsStore } from '@/store/locationsStore.js';
 import { useEpisodesStore } from '@/store/episodesStore.js';
 import { useMainStore } from '@/store/mainStore.js';
 import { storeToRefs } from 'pinia';
+import RemoveLikedItem from '@/components/RemoveLikedItem.vue';
 
 const tab = ref();
 const categories = ref(['Characters', 'Episodes', 'Locations']);
@@ -17,7 +18,7 @@ const { episodes } = storeToRefs(useEpisodesStore());
 const { delay } = useMainStore();
 const { getCharactersById } = useCharactersStore();
 const { getLocationsById } = useLocationsStore();
-const { getEpisodesById } = useEpisodesStore();
+const { getEpisodesById} = useEpisodesStore();
 
 const characterHeaders = ref([
 	{ title: '', sortable: false, key: 'image' },
@@ -47,15 +48,20 @@ const headers = ref();
 const items = ref();
 const destination = ref();
 const loading = ref(false);
+const dialogOpen = ref(false);
 
-watchEffect(async () => {
-	loading.value = true;
-	await delay(200);
-	await getCharactersById(loggedUser.value.likedCharacters);
-	await getLocationsById(loggedUser.value.likedLocations);
-	await getEpisodesById(loggedUser.value.likedEpisodes);
-	loading.value = false;
-});
+watch(
+	loggedUser,
+	async () => {
+		loading.value = true;
+		await delay(200);
+		await getCharactersById(loggedUser.value.likedCharacters);
+		await getLocationsById(loggedUser.value.likedLocations);
+		await getEpisodesById(loggedUser.value.likedEpisodes);
+		loading.value = false;
+	},
+	{ immediate: true, deep: true }
+);
 
 watchEffect(() => {
 	switch (tab.value) {
@@ -79,6 +85,7 @@ watchEffect(() => {
 		}
 	}
 });
+
 </script>
 <template>
 	<VCard class="mt-4 pa-4">
@@ -123,13 +130,7 @@ watchEffect(() => {
 						select-strategy="single"
 					>
 						<template #item.data-table-select="{ item }">
-							<VBtn
-								:color="item.isLiked ? 'gray' : 'pink'"
-								icon="mdi-heart"
-								variant="text"
-								class="like-btn"
-								@click="console.log('clicked')"
-							/>
+							<RemoveLikedItem :item="item"  :tab="tab"/>
 						</template>
 						<template #item.image="{ item }">
 							<VAvatar>
