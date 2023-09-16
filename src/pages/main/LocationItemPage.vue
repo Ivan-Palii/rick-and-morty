@@ -17,12 +17,14 @@ const { locations } = storeToRefs(useLocationsStore());
 const loader = ref(false);
 const route = useRoute();
 const residentsShow = ref(false);
+const location = ref()
 
 watchEffect(async () => {
 	loader.value = true;
 	await delay(500);
 	await getLocationsById(route.query.id);
-	const charIds = locations.value.residents.map(l => l.split('/').pop());
+	location.value = locations.value[0]
+	const charIds = location.value.residents.map(l => l.split('/').pop());
 	if (charIds.length) {
 		await getCharactersById(charIds);
 		residentsShow.value = true;
@@ -39,16 +41,16 @@ watchEffect(async () => {
 			<VCard>
 				<VRow class="ma-0">
 					<VCol>
-						<VCardTitle>Name: {{ locations.name }}</VCardTitle>
+						<VCardTitle>Name: {{ location.name }}</VCardTitle>
 						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
-							Type: {{ locations.type }}
+							Type: {{ location.type }}
 						</VCardText>
 						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
-							Dimension: {{ locations.dimension }}
+							Dimension: {{ location.dimension }}
 						</VCardText>
 						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
 							Created:
-							{{ new Date(Date.parse(locations.created)).toLocaleDateString() }}
+							{{ new Date(Date.parse(location.created)).toLocaleDateString() }}
 						</VCardText>
 					</VCol>
 				</VRow>
@@ -90,8 +92,8 @@ watchEffect(async () => {
 					</VCol>
 				</VRow>
 				<LikeBtn
-					:btn-active="locations.isLiked"
-					:item-id="locations.id"
+					:btn-active="location.isLiked"
+					:item-id="location.id"
 					:on-click="onLocationClick"
 				/>
 			</VCard>

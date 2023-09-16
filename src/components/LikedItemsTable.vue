@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useUsersStore } from '@/store/usersStore.js';
 import { useCharactersStore } from '@/store/charactersStore.js';
 import { useLocationsStore } from '@/store/locationsStore.js';
@@ -46,12 +46,15 @@ const episodesHeaders = ref([
 const headers = ref();
 const items = ref();
 const destination = ref();
+const loading = ref(false);
 
 watchEffect(async () => {
-	await delay(100);
+	loading.value = true;
+	await delay(200);
 	await getCharactersById(loggedUser.value.likedCharacters);
 	await getLocationsById(loggedUser.value.likedLocations);
 	await getEpisodesById(loggedUser.value.likedEpisodes);
+	loading.value = false;
 });
 
 watchEffect(() => {
@@ -110,6 +113,7 @@ watchEffect(() => {
 						/>
 					</VCardTitle>
 					<VDataTable
+						v-if="!loading"
 						:headers="headers"
 						:items="items"
 						class="elevation-1"

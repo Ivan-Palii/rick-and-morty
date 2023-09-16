@@ -49,9 +49,14 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 	};
 
 	const getCharactersById = async idArr => {
+		if (idArr.length === 0) {
+			characters.value = [];
+			return;
+		}
+
 		try {
 			const { data } = await axios.get(`character/${idArr}`);
-			characters.value = data;
+			characters.value = idArr.length > 1 ? data : [data];
 			if (characters.value.length) setLikedCharacters();
 			else
 				characters.value.isLiked =

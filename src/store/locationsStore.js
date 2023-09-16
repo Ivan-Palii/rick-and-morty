@@ -46,9 +46,13 @@ export const useLocationsStore = defineStore('locationsStore', () => {
 	};
 
 	const getLocationsById = async idArr => {
+		if (idArr.length === 0) {
+			locations.value = [];
+			return;
+		}
 		try {
 			const { data } = await axios.get(`location/${idArr}`);
-			locations.value = data;
+			locations.value = idArr.length > 1 ? data : [data];
 			if (locations.value.length) setLikedLocations();
 			else
 				locations.value.isLiked =

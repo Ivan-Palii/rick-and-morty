@@ -18,12 +18,14 @@ const { episodes } = storeToRefs(useEpisodesStore());
 const residentsShow = ref(false);
 const loader = ref(false);
 const route = useRoute();
+const episode = ref()
 
 watchEffect(async () => {
 	loader.value = true;
 	await delay(500);
 	await getEpisodesById(route.query.id);
-	const charIds = episodes.value.characters.map(l => l.split('/').pop());
+	episode.value = episodes.value[0]
+	const charIds = episode.value.characters.map(l => l.split('/').pop());
 	if (charIds.length) {
 		await getCharactersById(charIds);
 		residentsShow.value = true;
@@ -40,16 +42,16 @@ watchEffect(async () => {
 			<VCard>
 				<VRow class="ma-0">
 					<VCol>
-						<VCardTitle>{{ episodes.name }}</VCardTitle>
+						<VCardTitle>{{ episode.name }}</VCardTitle>
 						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
-							Air date: {{ episodes.air_date }}
+							Air date: {{ episode.air_date }}
 						</VCardText>
 						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
-							Episode: {{ episodes.episode }}
+							Episode: {{ episode.episode }}
 						</VCardText>
 						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
 							Created:
-							{{ new Date(Date.parse(episodes.created)).toLocaleDateString() }}
+							{{ new Date(Date.parse(episode.created)).toLocaleDateString() }}
 						</VCardText>
 					</VCol>
 				</VRow>
@@ -91,9 +93,9 @@ watchEffect(async () => {
 					</VCol>
 				</VRow>
 				<LikeBtn
-					:btn-active="episodes.isLiked"
+					:btn-active="episode.isLiked"
 					:on-click="onEpisodeClick"
-					:item-id="episodes.id"
+					:item-id="episode.id"
 				/>
 			</VCard>
 		</template>

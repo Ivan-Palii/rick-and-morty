@@ -46,9 +46,13 @@ export const useEpisodesStore = defineStore('EpisodesStore', () => {
 	};
 
 	const getEpisodesById = async idArr => {
+		if (idArr.length === 0) {
+			episodes.value = [];
+			return;
+		}
 		try {
 			const { data } = await axios.get(`episode/${idArr}`);
-			episodes.value = data;
+			episodes.value = idArr.length > 1 ? data : [data];
 			if (episodes.value.length) setLikedEpisodes();
 			else
 				episodes.value.isLiked =

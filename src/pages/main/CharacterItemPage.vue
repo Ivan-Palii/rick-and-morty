@@ -17,12 +17,15 @@ const { episodes } = storeToRefs(useEpisodesStore());
 
 const loader = ref(false);
 const route = useRoute();
+const character = ref()
+
 
 watchEffect(async () => {
 	loader.value = true;
 	await delay(500);
 	await getCharactersById(route.query.id);
-	await getEpisodesById(characters.value.episode.map(e => e.split('/').pop()));
+	character.value = characters.value[0]
+	await getEpisodesById(character.value.episode.map(e => e.split('/').pop()));
 	setColor();
 	loader.value = false;
 });
@@ -30,7 +33,7 @@ watchEffect(async () => {
 const color = ref(undefined);
 
 function setColor() {
-	switch (characters.value.status) {
+	switch (character.value.status) {
 		case 'Alive': {
 			color.value = 'green';
 			break;
@@ -59,7 +62,7 @@ function setColor() {
 							size="164"
 						>
 							<VImg
-								:src="characters.image"
+								:src="character.image"
 								aspect-ratio="1/1"
 								cover
 							/>
@@ -67,7 +70,7 @@ function setColor() {
 					</div>
 					<div class="d-flex flex-column">
 						<VCardTitle class="text-wrap pa-4">
-							{{ characters.name }}
+							{{ character.name }}
 						</VCardTitle>
 						<div class="d-flex justify-center align-center pl-4">
 							<VAvatar
@@ -75,26 +78,26 @@ function setColor() {
 								size="13"
 							/>
 							<VCardText class="pa-1 pl-2 text-wrap">
-								{{ characters.status }} - {{ characters.species }}
+								{{ character.status }} - {{ character.species }}
 							</VCardText>
 						</div>
 						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
-							Gender: {{ characters.gender }}
+							Gender: {{ character.gender }}
 						</VCardText>
 						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
 							Origin:
 							<RouterLink
-								v-if="characters.origin.url"
+								v-if="character.origin.url"
 								:to="{
 									path: 'location',
-									query: { id: characters.origin.url.split('/').pop() }
+									query: { id: character.origin.url.split('/').pop() }
 								}"
 								class="link"
 							>
-								{{ characters.origin?.name }}
+								{{ character.origin?.name }}
 							</RouterLink>
 							<span v-else>
-								{{ characters.origin?.name }}
+								{{ character.origin?.name }}
 							</span>
 						</VCardText>
 						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
@@ -102,11 +105,11 @@ function setColor() {
 							<RouterLink
 								:to="{
 									path: 'location',
-									query: { id: characters.location.url.split('/').pop() }
+									query: { id: character.location.url.split('/').pop() }
 								}"
 								class="link"
 							>
-								{{ characters.location?.name }}
+								{{ character.location?.name }}
 							</RouterLink>
 						</VCardText>
 						<VCardText class="pa-1 pl-4 text-wrap flex-0-0">
@@ -159,8 +162,8 @@ function setColor() {
 					</VRow>
 				</VRow>
 				<LikeBtn
-					:item-id="characters.id"
-					:btn-active="characters.isLiked"
+					:item-id="character.id"
+					:btn-active="character.isLiked"
 					:on-click="onCharacterClick"
 				/>
 			</VCard>
