@@ -51,7 +51,9 @@ export const useLocationsStore = defineStore('locationsStore', () => {
 			return;
 		}
 		try {
+			if (typeof idArr === 'string') idArr = idArr.split(',').map(Number);
 			const { data } = await axios.get(`location/${idArr}`);
+
 			locations.value = idArr.length > 1 ? data : [data];
 			if (locations.value.length) setLikedLocations();
 			else

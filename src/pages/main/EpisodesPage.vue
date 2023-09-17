@@ -35,7 +35,6 @@ watch(params, async () => {
 	loader.value = false;
 });
 watch(router.currentRoute, async (value, oldValue) => {
-	console.log(oldValue);
 	if (oldValue.query.page === params.page.toString() && oldValue.path === value.path)
 		params.page = +value.query.page;
 });

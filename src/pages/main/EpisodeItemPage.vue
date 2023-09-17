@@ -15,7 +15,6 @@ const { getEpisodesById, onEpisodeClick } = useEpisodesStore();
 const { characters } = storeToRefs(useCharactersStore());
 const { episodes } = storeToRefs(useEpisodesStore());
 
-const residentsShow = ref(false);
 const loader = ref(false);
 const route = useRoute();
 const episode = ref()
@@ -25,11 +24,7 @@ watchEffect(async () => {
 	await delay(500);
 	await getEpisodesById(route.query.id);
 	episode.value = episodes.value[0]
-	const charIds = episode.value.characters.map(l => l.split('/').pop());
-	if (charIds.length) {
-		await getCharactersById(charIds);
-		residentsShow.value = true;
-	}
+	await getCharactersById(episode.value.characters.map(c => +c.split('/').pop()));
 	loader.value = false;
 });
 </script>
@@ -57,17 +52,10 @@ watchEffect(async () => {
 				</VRow>
 				<VRow>
 					<VCol class="d-flex justify-center flex-1-0-100">
-						<h3>Residents</h3>
-					</VCol>
-					<VCol
-						v-if="!residentsShow"
-						class="d-flex justify-center flex-1-0-100"
-					>
-						<h4>There are no residents here</h4>
+						<h3>Seen in the episode</h3>
 					</VCol>
 					<VCol
 						v-for="character in characters"
-						v-else-if="characters?.length > 1"
 						:key="character.id"
 						cols="12"
 						md="6"
@@ -76,18 +64,6 @@ watchEffect(async () => {
 					>
 						<CharacterCard
 							:character="character"
-							:on-click="onCharacterClick"
-						/>
-					</VCol>
-					<VCol
-						v-else
-						cols="12"
-						md="6"
-						sm="12"
-						class="d-flex"
-					>
-						<CharacterCard
-							:character="characters"
 							:on-click="onCharacterClick"
 						/>
 					</VCol>

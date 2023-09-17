@@ -14,7 +14,6 @@ const props = defineProps({
 });
 
 const color = ref(undefined);
-// console.log(props.character.status)
 switch (props.character.status) {
 	case 'Alive': {
 		color.value = 'green';

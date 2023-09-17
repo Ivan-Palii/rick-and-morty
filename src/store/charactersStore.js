@@ -55,6 +55,7 @@ export const useCharactersStore = defineStore('charactersStore', () => {
 		}
 
 		try {
+			if (typeof idArr === 'string') idArr = idArr.split(',').map(Number);
 			const { data } = await axios.get(`character/${idArr}`);
 			characters.value = idArr.length > 1 ? data : [data];
 			if (characters.value.length) setLikedCharacters();

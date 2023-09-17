@@ -49,7 +49,6 @@ export const useUsersStore = defineStore('usersStore', () => {
 		return false;
 	};
 	const logoutUser = () => {
-		console.log('called');
 		loggedUser.value = {};
 	};
 

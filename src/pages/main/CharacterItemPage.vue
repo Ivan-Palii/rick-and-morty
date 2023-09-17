@@ -17,15 +17,15 @@ const { episodes } = storeToRefs(useEpisodesStore());
 
 const loader = ref(false);
 const route = useRoute();
-const character = ref()
-
+const character = ref();
 
 watchEffect(async () => {
 	loader.value = true;
 	await delay(500);
 	await getCharactersById(route.query.id);
-	character.value = characters.value[0]
-	await getEpisodesById(character.value.episode.map(e => e.split('/').pop()));
+	character.value = characters.value[0];
+	await getEpisodesById(character.value.episode.map(e => +e.split('/').pop()));
+	console.log(episodes.value);
 	setColor();
 	loader.value = false;
 });
@@ -118,12 +118,12 @@ function setColor() {
 								:to="{
 									path: 'episode',
 									query: {
-										id: episodes?.length > 1 ? episodes[0].id : episodes.id
+										id: episodes[0].id
 									}
 								}"
 								class="link"
 							>
-								{{ episodes?.length > 1 ? episodes[0].name : episodes.name }}
+								{{ episodes[0].name }}
 							</RouterLink>
 						</VCardText>
 					</div>
@@ -135,7 +135,6 @@ function setColor() {
 					<VRow class="ma-0">
 						<VCol
 							v-for="episode in episodes"
-							v-if="episodes?.length > 1"
 							:key="episode.id"
 							cols="12"
 							md="6"
@@ -144,18 +143,6 @@ function setColor() {
 						>
 							<EpisodeCard
 								:episode="episode"
-								:on-click="onEpisodeClick"
-							/>
-						</VCol>
-						<VCol
-							v-else
-							cols="12"
-							md="6"
-							sm="12"
-							class="d-flex"
-						>
-							<EpisodeCard
-								:episode="episodes"
 								:on-click="onEpisodeClick"
 							/>
 						</VCol>

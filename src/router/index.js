@@ -91,7 +91,6 @@ router.beforeEach((to, from, next) => {
 
 	const authReq = to.matched.some(route => route.meta.requiresAuth);
 	const hideLog = to.matched.some(route => route.meta.hideLogged);
-	//hideLog && isLogged.value
 
 	if (hideLog && isLogged.value) {
 		setSnackbarParams({ isOpen: true, message: "You're already loggedin.", color: 'red' });
