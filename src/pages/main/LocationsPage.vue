@@ -15,7 +15,7 @@ const router = useRouter();
 const route = useRoute();
 
 const isQueryValid = computed(() => {
-	return route.query.page > 0 && route.query.page < pages.value;
+	return route.query.page > 0 && route.query.page <= pages.value;
 });
 
 const params = reactive({
