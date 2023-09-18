@@ -14,18 +14,18 @@ const props = defineProps({
 </script>
 <template>
 	<VCard class="flex-1-1">
-		<VRow>
+		<VRow class="ma-0 ">
 			<VCol>
 				<VCardTitle>
 					<RouterLink
 						:to="{ path: 'episode', query: { id: episode.id } }"
-						class="link"
+						class="link text-wrap"
 					>
 						{{ episode.name }}
 					</RouterLink>
 				</VCardTitle>
-				<VCardSubtitle>Release date: {{ episode.air_date }}</VCardSubtitle>
-				<VCardSubtitle>Episode: {{ episode.episode }}</VCardSubtitle>
+				<VCardSubtitle class="text-wrap">Release date: {{ episode.air_date }}</VCardSubtitle>
+				<VCardSubtitle class="text-wrap">Episode: {{ episode.episode }}</VCardSubtitle>
 			</VCol>
 		</VRow>
 

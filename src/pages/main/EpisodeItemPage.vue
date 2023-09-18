@@ -50,7 +50,7 @@ watchEffect(async () => {
 						</VCardText>
 					</VCol>
 				</VRow>
-				<VRow>
+				<VRow class="ma-0">
 					<VCol class="d-flex justify-center flex-1-0-100">
 						<h3>Seen in the episode</h3>
 					</VCol>

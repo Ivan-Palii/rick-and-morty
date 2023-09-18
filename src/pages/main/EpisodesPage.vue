@@ -40,7 +40,9 @@ watch(router.currentRoute, async (value, oldValue) => {
 });
 </script>
 <template>
-	<h1>Episodes</h1>
+	<VRow class="ma-0 pt-4 justify-center">
+		<h3 class="text-h3 text-wrap text-center">Episodes</h3>
+	</VRow>
 	<VContainer class="wrap lighten-5 pa-4">
 		<VRow>
 			<template v-if="loader">
@@ -72,9 +74,9 @@ watch(router.currentRoute, async (value, oldValue) => {
 		</VRow>
 		<VRow class="d-flex justify-center">
 			<VCol
-				cols="6"
+				cols="12"
 				md="6"
-				sm="8"
+				sm="12"
 			>
 				<VPagination
 					v-model="params.page"

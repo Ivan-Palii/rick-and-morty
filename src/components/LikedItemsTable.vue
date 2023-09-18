@@ -48,6 +48,7 @@ const headers = ref();
 const items = ref();
 const destination = ref();
 const loading = ref(false);
+const search = ref('');
 
 watch(
 	loggedUser,
@@ -109,6 +110,7 @@ watchEffect(() => {
 						{{ categories[n - 1] }}
 						<VSpacer />
 						<VTextField
+							v-model="search"
 							label="Search"
 							variant="outlined"
 							class="flex-0-1-5"
@@ -121,6 +123,7 @@ watchEffect(() => {
 						v-if="!loading"
 						:headers="headers"
 						:items="items"
+						:search="search"
 						class="elevation-1"
 						density="compact"
 						item-key="name"

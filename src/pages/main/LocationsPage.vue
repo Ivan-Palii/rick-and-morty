@@ -39,7 +39,9 @@ watch(router.currentRoute, async (value, oldValue) => {
 });
 </script>
 <template>
-	<h1>Locations</h1>
+	<VRow class="ma-0 pt-4 justify-center">
+		<h3 class="text-h3 text-wrap text-center">Locations</h3>
+	</VRow>
 	<VContainer class="wrap lighten-5 pa-4">
 		<VRow>
 			<template v-if="loader">

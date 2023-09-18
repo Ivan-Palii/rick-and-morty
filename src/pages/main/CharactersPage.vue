@@ -51,7 +51,9 @@ watch(
 );
 </script>
 <template>
-	<h1>Characters</h1>
+	<VRow class="ma-0 pt-4 justify-center">
+		<h3 class="text-h3 text-wrap text-center">Characters</h3>
+	</VRow>
 	<CharactersList
 		:loader="loader"
 		:characters="characters"

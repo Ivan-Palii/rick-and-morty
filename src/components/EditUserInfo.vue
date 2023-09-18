@@ -65,6 +65,8 @@ function closeDialog() {
 	rPassword.value = '';
 	img.value = '';
 	dialog.value = false;
+	showState.password = false
+	showState.rPassword = false
 }
 const emptyCheck = v => !!v || 'Field is required';
 const rule = reactive({

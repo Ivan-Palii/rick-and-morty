@@ -51,7 +51,8 @@ const logout = () => {
 	<VLayout class="overflow-y-auto flex-column">
 		<VAppBar
 			color="primary"
-			class="px-6"
+
+			class="px-6 position-fixed"
 			prominent
 		>
 			<VAppBarNavIcon
@@ -143,7 +144,7 @@ const logout = () => {
 				</VCard>
 			</VMenu>
 		</VAppBar>
-		<VNavigationDrawer v-model="drawer">
+		<VNavigationDrawer v-model="drawer" class="position-fixed">
 			<VList
 				nav
 				dense

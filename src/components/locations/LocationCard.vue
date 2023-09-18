@@ -14,20 +14,20 @@ const props = defineProps({
 </script>
 <template>
 	<VCard class="flex-1-1">
-		<VRow>
+		<VRow class="ma-0">
 			<VCol>
-				<VCardTitle>
+				<VCardTitle class="text-wrap">
 					Location name:
 					<RouterLink
 						:to="{ path: 'location', query: { id: location.id } }"
-						class="link"
+						class="link text-wrap"
 					>
 						{{ location.name }}
 					</RouterLink>
 				</VCardTitle>
-				<VCardText class="pb-2 pt-0">Type: {{ location.type }}</VCardText>
-				<VCardText class="pb-2 pt-0">Dimension: {{ location.dimension }}</VCardText>
-				<VCardText class="pb-2 pt-0">
+				<VCardText class="pb-2 pt-0 text-wrap">Type: {{ location.type }}</VCardText>
+				<VCardText class="pb-2 pt-0 text-wrap">Dimension: {{ location.dimension }}</VCardText>
+				<VCardText class="pb-2 pt-0 text-wrap">
 					Created:
 					{{ new Date(Date.parse(location.created)).toLocaleDateString() }}
 				</VCardText>

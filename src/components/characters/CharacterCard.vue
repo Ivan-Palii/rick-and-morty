@@ -32,10 +32,11 @@ switch (props.character.status) {
 	<VCard class="pa-4 flex-1-1">
 		<VRow class="ma-0 character_row">
 			<VCol
-				cols="10"
-				lg="4"
-				md="6"
-				sm="12"
+				cols="12"
+				xxl="2"
+				xl="3"
+				md="5"
+				sm="4"
 			>
 				<div class="character_avatar-wrapper">
 					<VAvatar
@@ -51,7 +52,7 @@ switch (props.character.status) {
 					</VAvatar>
 				</div>
 			</VCol>
-			<div class="d-flex flex-column">
+			<VCol class="d-flex flex-column">
 				<VCardTitle class="text-wrap flex-0-1">
 					<RouterLink
 						:to="{ path: 'character', query: { id: character.id } }"
@@ -84,7 +85,7 @@ switch (props.character.status) {
 						{{ character.location.name }}
 					</RouterLink>
 				</VCardText>
-			</div>
+			</VCol>
 		</VRow>
 		<LikeBtn
 			:btn-active="character.isLiked"
