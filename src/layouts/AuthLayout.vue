@@ -1,8 +1,18 @@
-<script setup>
-</script>
+<script setup></script>
 <template>
-	<h1>Auth</h1>
-	<RouterView/>
+	<VLayout class="overflow-y-auto flex-column">
+		<VAppBar
+			:elevation="0"
+			color="primary"
+		>
+			<VBtn
+				:to="{ path: '/' }"
+				icon="mdi-keyboard-return"
+			/>
+		</VAppBar>
+		<VMain class="mt-16">
+			<RouterView />
+		</VMain>
+	</VLayout>
 </template>
-<style scoped>
-</style>
+<style scoped></style>
