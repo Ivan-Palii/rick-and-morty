@@ -5,6 +5,10 @@ import { useUsersStore } from '@/store/usersStore.js';
 import TheFooter from '@/components/TheFooter.vue';
 import { storeToRefs } from 'pinia';
 import router from '@/router/index.js';
+import { useTheme } from 'vuetify';
+
+const theme = useTheme();
+const themeState = ref()
 
 const { loggedUser } = storeToRefs(useUsersStore());
 const { logoutUser } = useUsersStore();
@@ -42,16 +46,18 @@ const logout = () => {
 	logoutUser();
 	router.go();
 };
-
-/*onMounted(() => {
-	if (!isLogged.value) router.push({ path: '/' });
-});*/
+onMounted(()=> {
+	themeState.value = theme.global.current.value.dark
+})
+function changeTheme() {
+	console.log(theme.global.current.value.dark);
+	theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
+}
 </script>
 <template>
 	<VLayout class="overflow-y-auto flex-column">
 		<VAppBar
 			color="primary"
-
 			class="px-6 position-fixed"
 			prominent
 		>
@@ -62,6 +68,17 @@ const logout = () => {
 			/>
 			<VToolbarTitle>Rick and Morty</VToolbarTitle>
 			<VSpacer />
+
+			<VSwitch
+				v-model="themeState"
+				:label="`${
+					theme.global.name.value[0].toUpperCase() + theme.global.name.value.slice(1)
+				}`"
+				hide-details
+				inline
+				class="flex-0-1 pr-4"
+				@change="changeTheme()"
+			/>
 			<VBtn
 				v-if="!isLogged"
 				:to="{ path: '/auth/login' }"
@@ -144,7 +161,10 @@ const logout = () => {
 				</VCard>
 			</VMenu>
 		</VAppBar>
-		<VNavigationDrawer v-model="drawer" class="position-fixed">
+		<VNavigationDrawer
+			v-model="drawer"
+			class="position-fixed"
+		>
 			<VList
 				nav
 				dense
